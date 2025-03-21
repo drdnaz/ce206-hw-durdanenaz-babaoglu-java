@@ -5,13 +5,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<!-- The Basics -->
-	<groupId>com.ucoruh.calculator</groupId>
-	<artifactId>calculator-app</artifactId>
+	<groupId>com.naz.taskmanager</groupId>
+	<artifactId>taskmanager-app</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<!-- More Project Information -->
-	<name>calculator-app</name>
+	<name>taskmanager-app</name>
 	<url>https://github.com/ucoruh/eclipse-java-maven-template</url>
 	<scm>
 		<url>https://github.com/ucoruh/eclipse-java-maven-template</url>
@@ -19,9 +19,9 @@
 	<inceptionYear>2023</inceptionYear>
 	<developers>
 		<developer>
-			<name>Asst. Prof. Dr. Ugur CORUH</name>
+			<name>Durdane Naz Babaoğlu</name>
 			<organization>RTEU</organization>
-			<email>ugur.coruh@erdogan.edu.tr</email>
+			<email>durdanenaz_babaoglu22@erdogan.edu.tr</email>
 			<roles>
 				<role>Developer</role>
 				<role>Designer</role>
@@ -38,8 +38,8 @@
 	</developers>
 	<contributors>
 		<contributor>
-			<name>Asst. Prof. Dr. Ugur CORUH</name>
-			<email>ugur.coruh@erdogan.edu.tr</email>
+			<name>Kardelen Biçen</name>
+			<email>kardelen_bicen21@erdogan.edu.tr</email>
 			<organization>RTEU</organization>
 			<roles>
 				<role>Developer</role>
@@ -145,8 +145,8 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<includes>
-						<include>**/CalculatorAppTest.java</include>
-						<include>**/CalculatorTest.java</include>
+						<include>**/TaskmanagerAppTest.java</include>
+						<include>**/TaskmanagerTest.java</include>
 					</includes>
 				</configuration>
 			</plugin>
@@ -250,7 +250,7 @@
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>
-										com.ucoruh.calculator.CalculatorApp</mainClass>
+										com.naz.taskmanager.TaskmanagerApp</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

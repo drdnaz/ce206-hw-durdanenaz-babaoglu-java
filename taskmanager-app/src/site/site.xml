@@ -20,7 +20,7 @@
 	<version position="right" />
 
 	<bannerLeft>
-		<name>Calculator Application</name>
+		<name>Taskmanager Application</name>
 		<src>images/logo.png</src>
 		<href>https://github.com/ucoruh/eclipse-java-maven-template</href>
 	</bannerLeft>
@@ -35,7 +35,7 @@
 	</poweredBy>
 
 	<body>
-		<head>Calculator App</head>
+		<head>Taskmanager App</head>
 		<!-- Add any additional meta tags, CSS files, or JavaScript files -->
 
 		<menu name="Overview">
