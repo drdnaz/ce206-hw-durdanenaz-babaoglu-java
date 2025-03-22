@@ -72,10 +72,10 @@ public class Taskmanager {
      */
     public void openingScreenMenu() {
         clearScreen();
-        out.println("***************************************");
-        out.println("*                                     *");
-        out.println("*      WELCOME TO Taskmanager MANAGER!       *");
-        out.println("*                                     *");
+        out.println("*****************************************");
+        out.println("*                                       *");
+        out.println("*      WELCOME TO Taskmanager MANAGER!  *");
+        out.println("*                                       *");
         out.println("***************************************\n");
         out.println("=============== MAIN MENU ===============");
         out.println("1. Login");
