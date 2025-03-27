@@ -3,30 +3,32 @@ package com.naz.taskmanager;
 import java.util.Scanner;
 
 /**
- * Main application class for the Task Scheduler
- * This is the entry point of the application
+ * Main application class that creates and starts the Taskmanager
  */
 public class TaskmanagerApp {
     /**
-     * Main method
+     * Application entry point
      * @param args Command line arguments
      */
     public static void main(String[] args) {
-        /** Path to the user data file. */
-        String pathFileUsers = "users.bin"; // File to store user data
+        // Create scanner for user input
+        Scanner scanner = new Scanner(System.in);
         
-        /** Scanner for user input. */
-        Scanner inputScanner = new Scanner(System.in);
+        // Get Taskmanager singleton instance
+        Taskmanager taskManager = Taskmanager.getInstance(scanner, System.out);
         
-        /** Create an instance of the Taskmanager class. */
-        Taskmanager taskmanager = new Taskmanager(inputScanner, System.out);
+        // Start the application
+        System.out.println("Starting TaskManager application...");
         
-        /** Start the main menu of the Taskmanager class. */
-        taskmanager.mainMenu(pathFileUsers);
+        // Path to user data file
+        String userDataPath = "users.bin";
         
-        /** Close the scanner when done. */
-        inputScanner.close();
+        // Run the main menu
+        taskManager.mainMenu(userDataPath);
         
-        System.out.println("Thank you for using Task Manager!");
+        // Close the scanner
+        scanner.close();
+        
+        System.out.println("TaskManager application closed. Goodbye!");
     }
 }
