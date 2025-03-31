@@ -1,72 +1,107 @@
-/**
-
-@file TaskmanagerAppTest.java
-@brief This file contains the test cases for the TaskmanagerApp class.
-@details This file includes test methods to validate the functionality of the TaskmanagerApp class. It uses JUnit for unit testing.
-*/
+// TaskmanagerAppTest.java (düzeltilmiş)
 package com.naz.taskmanager;
 
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import java.io.InputStream;  // Eksik import eklendi
 import java.io.PrintStream;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.naz.taskmanager.TaskmanagerApp;
+import com.naz.taskmanager.repository.DatabaseConnection;
 
-
-/**
-
-@class TaskmanagerAppTest
-@brief This class represents the test class for the TaskmanagerApp class.
-@details The TaskmanagerAppTest class provides test methods to verify the behavior of the TaskmanagerApp class. It includes test methods for successful execution, object creation, and error handling scenarios.
-@author ugur.coruh
-*/
 public class TaskmanagerAppTest {
 
-  /**
-   * @brief This method is executed once before all test methods.
-   * @throws Exception
-   */
-  @BeforeClass
-  public static void setUpBeforeClass() throws Exception {
-  }
+    private ByteArrayOutputStream outContent;
+    private PrintStream originalOut;
+    private ByteArrayInputStream inContent;
+    private InputStream originalIn;  // Doğru tip: InputStream
 
-  /**
-   * @brief This method is executed once after all test methods.
-   * @throws Exception
-   */
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-  }
+    @Before
+    public void setUp() throws Exception {
+        // Redirect standard output to capture it
+        outContent = new ByteArrayOutputStream();
+        originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+        
+        // Redirect standard input to provide test input
+        String input = "3\n"; // Input to exit the application
+        inContent = new ByteArrayInputStream(input.getBytes());
+        originalIn = System.in;  // System.in zaten bir InputStream nesnesidir
+        System.setIn(inContent);
+    }
 
-  /**
-   * @brief This method is executed before each test method.
-   * @throws Exception
-   */
-  @Before
-  public void setUp() throws Exception {
-  }
+    @After
+    public void tearDown() throws Exception {
+        // Restore original standard output and input
+        System.setOut(originalOut);
+        System.setIn(originalIn);
+    }
 
-  /**
-   * @brief This method is executed after each test method.
-   * @throws Exception
-   */
-  @After
-  public void tearDown() throws Exception {
-  }
-
-  /**
-   * @brief Test method to validate the successful execution of the main method.
-   *
-   * @details This method redirects the System.in and System.out streams to simulate user input and capture the output. It calls the main method of TaskmanagerApp with a valid argument and asserts the expected behavior based on the output.
-   */
-  
+    @Test
+    public void testMainMethodExecution() {
+        // Call main method which should initialize the database and start the Taskmanager
+        TaskmanagerApp.main(new String[]{});
+        
+        // Check if expected output messages are present
+        String output = outContent.toString();
+        assertTrue("Should initialize database", output.contains("Initializing database"));
+        assertTrue("Should start application", output.contains("Starting TaskManager application"));
+        assertTrue("Should close application", output.contains("TaskManager application closed"));
+    }
+    
+    @Test
+    public void testDatabaseInitialization() {
+        // Create test instance of DatabaseConnection
+        DatabaseConnection dbConnection = DatabaseConnection.getInstance(System.out);
+        
+        // Initialize database
+        dbConnection.initializeDatabase();
+        
+        // Check if connection is successful by getting connection
+        assertNotNull(dbConnection.getConnection());
+        
+        // Close connection
+        dbConnection.closeConnection();
+    }
+    
+    @Test
+    public void testSingletonPattern() {
+        // Get two instances of the database connection
+        DatabaseConnection instance1 = DatabaseConnection.getInstance(System.out);
+        DatabaseConnection instance2 = DatabaseConnection.getInstance(System.out);
+        
+        // Verify they are the same instance
+        assertSame("getInstance should return the same instance", instance1, instance2);
+    }
+    
+    @Test
+    public void testMainWithArguments() {
+        // Call main method with arguments
+        TaskmanagerApp.main(new String[]{"test_arg"});
+        
+        // Check if expected output messages are present
+        String output = outContent.toString();
+        assertTrue("Should initialize database", output.contains("Initializing database"));
+        assertTrue("Should start application", output.contains("Starting TaskManager application"));
+    }
+    
+    @Test
+    public void testMainFlow() {
+        // Create test input for a more complex flow
+        String input = "2\ntestuser\ntestpass\ntest@example.com\n3\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        
+        // Call main method which should register a user and then exit
+        TaskmanagerApp.main(new String[]{});
+        
+        // Check if expected output messages are present
+        String output = outContent.toString();
+        assertTrue("Should initialize database", output.contains("Initializing database"));
+        assertTrue("Should handle register user menu", output.contains("REGISTER NEW USER"));
+    }
 }

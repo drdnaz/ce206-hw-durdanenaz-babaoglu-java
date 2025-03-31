@@ -1,3 +1,4 @@
+// DatabaseConnection.java (düzeltilmiş)
 package com.naz.taskmanager.repository;
 
 import java.sql.Connection;
@@ -20,7 +21,7 @@ public class DatabaseConnection {
      * Constructor for DatabaseConnection
      * @param out PrintStream for output messages
      */
-    private DatabaseConnection(PrintStream out) {
+    public DatabaseConnection(PrintStream out) {  // Constructor public yapıldı
         this.out = out;
     }
     
@@ -44,9 +45,9 @@ public class DatabaseConnection {
         try {
             if (connection == null || connection.isClosed()) {
                 // SQLite sürücüsünü yükle - bazen bu gerekli olabilir
-               Class.forName("org.sqlite.JDBC");
+                Class.forName("org.sqlite.JDBC");
                
-               // Ensure database directory exists
+                // Ensure database directory exists
                 File dbDir = new File("data");
                 if (!dbDir.exists()) {
                     dbDir.mkdirs();
@@ -54,18 +55,18 @@ public class DatabaseConnection {
                 
                 connection = DriverManager.getConnection("jdbc:sqlite:data/taskmanager.db");
                 out.println("Database connection established successfully.");
-            }return connection;
-            
-            catch (SQLException e) {
-            	out.println("Error connecting to database: " + e.getMessage());
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                out.println("SQLite JDBC driver not found: " + e.getMessage());
-                e.printStackTrace();
             }
             return connection;
+        } catch (SQLException e) {
+            out.println("Error connecting to database: " + e.getMessage());
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            out.println("SQLite JDBC driver not found: " + e.getMessage());
+            e.printStackTrace();
         }
-        
+        return connection;
+    }
+    
     /**
      * Close database connection
      */

@@ -29,7 +29,7 @@ public class Taskmanager {
      * @param in Scanner for user input
      * @param out PrintStream for output
      */
-    private Taskmanager(Scanner in, PrintStream out) {
+    public Taskmanager(Scanner in, PrintStream out) {
         this.in = in;
         this.out = out;
     }
@@ -148,7 +148,7 @@ public class Taskmanager {
      * Login user menu
      * @return true if login successful
      */
-    private boolean loginUserMenu() {
+    public boolean loginUserMenu() {
         out.println("========================================");
         out.println("               USER LOGIN              ");
         out.println("========================================");
@@ -177,7 +177,7 @@ public class Taskmanager {
     /**
      * Register user menu
      */
-    private void registerUserMenu() {
+    public void registerUserMenu() {
         out.println("========================================");
         out.println("           REGISTER NEW USER           ");
         out.println("========================================");
@@ -213,7 +213,7 @@ public class Taskmanager {
     /**
      * Initialize services for current user
      */
-    private void initializeServices() {
+    public void initializeServices() {
         if (currentUser != null) {
             taskService = new TaskService(currentUser.getUsername());
             reminderService = new ReminderService(currentUser.getUsername());
@@ -355,7 +355,7 @@ public class Taskmanager {
     /**
      * Add a new task
      */
-    private void addTask() {
+    public void addTask() {
         clearScreen();
         out.println("========================================");
         out.println("               ADD TASK                ");
@@ -435,7 +435,7 @@ public class Taskmanager {
     /**
      * View all tasks
      */
-    private void viewTasks() {
+    public void viewTasks() {
         clearScreen();
         out.println("========================================");
         out.println("              VIEW TASKS               ");
@@ -464,7 +464,7 @@ public class Taskmanager {
     /**
      * Categorize tasks
      */
-    private void categorizeTasks() {
+    public void categorizeTasks() {
         clearScreen();
         out.println("========================================");
         out.println("            CATEGORIZE TASKS           ");
@@ -507,7 +507,7 @@ public class Taskmanager {
     /**
      * Delete tasks
      */
-    private void deleteTasks() {
+    public void deleteTasks() {
         clearScreen();
         out.println("========================================");
         out.println("             DELETE TASKS              ");
@@ -602,7 +602,7 @@ public class Taskmanager {
     /**
      * Assign deadline to a task
      */
-    private void assignDeadline() {
+    public void assignDeadline() {
         clearScreen();
         out.println("========================================");
         out.println("           ASSIGN DEADLINE             ");
@@ -638,7 +638,7 @@ public class Taskmanager {
      * Assign deadline to a specific task
      * @param task Task to assign deadline to
      */
-    private void assignDeadlineToTask(TaskmanagerItem task) {
+    public void assignDeadlineToTask(TaskmanagerItem task) {
         out.println("Current task: " + task.getName());
         if (task.getDeadline() != null) {
             out.println("Current deadline: " + dateFormat.format(task.getDeadline()));
@@ -671,7 +671,7 @@ public class Taskmanager {
     /**
      * View all deadlines
      */
-    private void viewDeadlines() {
+    public void viewDeadlines() {
         clearScreen();
         out.println("========================================");
         out.println("             VIEW DEADLINES            ");
@@ -704,7 +704,7 @@ public class Taskmanager {
     /**
      * View deadlines in a date range
      */
-    private void viewDeadlinesInRange() {
+    public void viewDeadlinesInRange() {
         clearScreen();
         out.println("========================================");
         out.println("        VIEW DEADLINES IN RANGE        ");
@@ -807,7 +807,7 @@ public class Taskmanager {
     /**
      * Set reminders for tasks
      */
-    private void setReminders() {
+    public void setReminders() {
         clearScreen();
         out.println("========================================");
         out.println("             SET REMINDERS             ");
@@ -854,7 +854,7 @@ public class Taskmanager {
     /**
      * View all reminders
      */
-    private void viewReminders() {
+    public void viewReminders() {
         clearScreen();
         out.println("========================================");
         out.println("             VIEW REMINDERS            ");
@@ -927,7 +927,7 @@ public class Taskmanager {
     /**
      * Notification settings
      */
-    private void notificationSettings() {
+    public void notificationSettings() {
         clearScreen();
         out.println("========================================");
         out.println("        NOTIFICATION SETTINGS          ");
@@ -987,7 +987,7 @@ public class Taskmanager {
     /**
      * View tasks by priority
      */
-    private void viewTasksByPriority() {
+    public void viewTasksByPriority() {
         clearScreen();
         out.println("========================================");
         out.println("           TASKS BY PRIORITY           ");
@@ -1039,7 +1039,7 @@ public class Taskmanager {
     /**
      * Mark task priority
      */
-    private void markTaskPriority() {
+    public void markTaskPriority() {
         clearScreen();
         out.println("========================================");
         out.println("         MARK TASK IMPORTANCE          ");
