@@ -1,23 +1,27 @@
 package com.naz.taskmanager.repository;
 
 import com.naz.taskmanager.model.Reminder;
-import java.io.*;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Repository for Reminder entities
- * Implements Single Responsibility Principle
+ * Repository for Reminder entities using SQLite
  */
 public class ReminderRepository implements Repository<Reminder> {
-    private final String fileName;
+    private final Connection connection;
+    private final String username;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     /**
      * Constructor for ReminderRepository
-     * @param username Username to create user-specific storage
+     * @param username Username for user-specific reminders
      */
     public ReminderRepository(String username) {
-        this.fileName = username + "_reminders.bin";
+        this.connection = DatabaseConnection.getInstance(System.out).getConnection();
+        this.username = username;
     }
     
     /**
@@ -26,9 +30,33 @@ public class ReminderRepository implements Repository<Reminder> {
      */
     @Override
     public void save(Reminder reminder) {
-        List<Reminder> reminders = getAll();
-        reminders.add(reminder);
-        saveAll(reminders);
+        String sql = "INSERT INTO Reminders (task_id, reminder_time, triggered, message) VALUES (?, ?, ?, ?)";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setLong(1, Long.parseLong(reminder.getTaskId()));
+            
+            if (reminder.getReminderTime() != null) {
+                stmt.setString(2, dateFormat.format(reminder.getReminderTime()));
+            } else {
+                stmt.setNull(2, Types.VARCHAR);
+            }
+            
+            stmt.setInt(3, reminder.isTriggered() ? 1 : 0);
+            stmt.setString(4, reminder.getMessage());
+            
+            stmt.executeUpdate();
+            
+            // Set the generated ID back to the reminder
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    reminder.setId(String.valueOf(rs.getLong(1)));
+                }
+            }
+            
+            System.out.println("Reminder saved successfully for task: " + reminder.getTaskId());
+        } catch (SQLException e) {
+            System.out.println("Error saving reminder: " + e.getMessage());
+        }
     }
     
     /**
@@ -38,12 +66,46 @@ public class ReminderRepository implements Repository<Reminder> {
      */
     @Override
     public Reminder getById(String id) {
-        for (Reminder reminder : getAll()) {
-            if (reminder.getId().equals(id)) {
-                return reminder;
+        String sql = "SELECT r.id, r.task_id, r.reminder_time, r.triggered, r.message " +
+                     "FROM Reminders r JOIN Tasks t ON r.task_id = t.id " +
+                     "WHERE r.id = ? AND t.username = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, Long.parseLong(id));
+            stmt.setString(2, username);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return createReminderFromResultSet(rs);
+                }
             }
+        } catch (SQLException | ParseException e) {
+            System.out.println("Error getting reminder by ID: " + e.getMessage());
         }
+        
         return null;
+    }
+    
+    /**
+     * Create Reminder object from ResultSet
+     * @param rs ResultSet containing reminder data
+     * @return Reminder object
+     */
+    private Reminder createReminderFromResultSet(ResultSet rs) throws SQLException, ParseException {
+        Reminder reminder = new Reminder();
+        
+        reminder.setId(String.valueOf(rs.getLong("id")));
+        reminder.setTaskId(String.valueOf(rs.getLong("task_id")));
+        
+        String reminderTimeStr = rs.getString("reminder_time");
+        if (reminderTimeStr != null) {
+            reminder.setReminderTime(dateFormat.parse(reminderTimeStr));
+        }
+        
+        reminder.setTriggered(rs.getInt("triggered") == 1);
+        reminder.setMessage(rs.getString("message"));
+        
+        return reminder;
     }
     
     /**
@@ -51,20 +113,25 @@ public class ReminderRepository implements Repository<Reminder> {
      * @return List of all reminders
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<Reminder> getAll() {
-        File file = new File(fileName);
+        List<Reminder> reminders = new ArrayList<>();
+        String sql = "SELECT r.id, r.task_id, r.reminder_time, r.triggered, r.message " +
+                     "FROM Reminders r JOIN Tasks t ON r.task_id = t.id " +
+                     "WHERE t.username = ?";
         
-        if (!file.exists()) {
-            return new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    reminders.add(createReminderFromResultSet(rs));
+                }
+            }
+        } catch (SQLException | ParseException e) {
+            System.out.println("Error getting all reminders: " + e.getMessage());
         }
         
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            return (List<Reminder>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Warning: Could not load reminders. Starting with empty reminder list.");
-            return new ArrayList<>();
-        }
+        return reminders;
     }
     
     /**
@@ -73,13 +140,29 @@ public class ReminderRepository implements Repository<Reminder> {
      */
     @Override
     public void update(Reminder reminder) {
-        List<Reminder> reminders = getAll();
-        for (int i = 0; i < reminders.size(); i++) {
-            if (reminders.get(i).getId().equals(reminder.getId())) {
-                reminders.set(i, reminder);
-                saveAll(reminders);
-                return;
+        String sql = "UPDATE Reminders SET reminder_time = ?, triggered = ?, message = ? " +
+                     "WHERE id = ? AND task_id IN (SELECT id FROM Tasks WHERE username = ?)";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            if (reminder.getReminderTime() != null) {
+                stmt.setString(1, dateFormat.format(reminder.getReminderTime()));
+            } else {
+                stmt.setNull(1, Types.VARCHAR);
             }
+            
+            stmt.setInt(2, reminder.isTriggered() ? 1 : 0);
+            stmt.setString(3, reminder.getMessage());
+            stmt.setLong(4, Long.parseLong(reminder.getId()));
+            stmt.setString(5, username);
+            
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Reminder updated successfully: ID " + reminder.getId());
+            } else {
+                System.out.println("No reminder found with ID: " + reminder.getId());
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating reminder: " + e.getMessage());
         }
     }
     
@@ -89,9 +172,21 @@ public class ReminderRepository implements Repository<Reminder> {
      */
     @Override
     public void delete(String id) {
-        List<Reminder> reminders = getAll();
-        reminders.removeIf(reminder -> reminder.getId().equals(id));
-        saveAll(reminders);
+        String sql = "DELETE FROM Reminders WHERE id = ? AND task_id IN (SELECT id FROM Tasks WHERE username = ?)";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, Long.parseLong(id));
+            stmt.setString(2, username);
+            
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Reminder deleted successfully: ID " + id);
+            } else {
+                System.out.println("No reminder found with ID: " + id);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error deleting reminder: " + e.getMessage());
+        }
     }
     
     /**
@@ -100,24 +195,24 @@ public class ReminderRepository implements Repository<Reminder> {
      * @return List of reminders for the task
      */
     public List<Reminder> getRemindersForTask(String taskId) {
-        List<Reminder> taskReminders = new ArrayList<>();
-        for (Reminder reminder : getAll()) {
-            if (reminder.getTaskId().equals(taskId)) {
-                taskReminders.add(reminder);
+        List<Reminder> reminders = new ArrayList<>();
+        String sql = "SELECT r.id, r.task_id, r.reminder_time, r.triggered, r.message " +
+                     "FROM Reminders r JOIN Tasks t ON r.task_id = t.id " +
+                     "WHERE r.task_id = ? AND t.username = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, Long.parseLong(taskId));
+            stmt.setString(2, username);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    reminders.add(createReminderFromResultSet(rs));
+                }
             }
+        } catch (SQLException | ParseException e) {
+            System.out.println("Error getting reminders for task: " + e.getMessage());
         }
-        return taskReminders;
-    }
-    
-    /**
-     * Save all reminders to storage
-     * @param reminders List of reminders to save
-     */
-    private void saveAll(List<Reminder> reminders) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(reminders);
-        } catch (IOException e) {
-            System.out.println("Error saving reminders: " + e.getMessage());
-        }
+        
+        return reminders;
     }
 }

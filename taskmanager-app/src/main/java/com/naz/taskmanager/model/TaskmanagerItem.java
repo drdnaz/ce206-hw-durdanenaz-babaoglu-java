@@ -172,4 +172,12 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
     public String getItemType() {
         return "Task";
     }
+    /**
+     * Set the ID of the taskmanager item
+     * @param id new ID
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+    
 }

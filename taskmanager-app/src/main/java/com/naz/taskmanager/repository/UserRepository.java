@@ -1,22 +1,22 @@
 package com.naz.taskmanager.repository;
 
 import com.naz.taskmanager.User;
-import java.io.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Repository for User entities
+ * Repository for User entities using SQLite
  */
 public class UserRepository implements Repository<User> {
-    private final String fileName;
+    private final Connection connection;
     
     /**
      * Constructor for UserRepository
-     * @param userDataPath Path to user data file
+     * @param userDataPath Path to user data file (unused in SQLite implementation)
      */
     public UserRepository(String userDataPath) {
-        this.fileName = userDataPath;
+        this.connection = DatabaseConnection.getInstance(System.out).getConnection();
     }
     
     /**
@@ -25,9 +25,18 @@ public class UserRepository implements Repository<User> {
      */
     @Override
     public void save(User user) {
-        List<User> users = getAll();
-        users.add(user);
-        saveAll(users);
+        String sql = "INSERT INTO Users (username, password, email) VALUES (?, ?, ?)";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getEmail());
+            
+            stmt.executeUpdate();
+            System.out.println("User saved successfully: " + user.getUsername());
+        } catch (SQLException e) {
+            System.out.println("Error saving user: " + e.getMessage());
+        }
     }
     
     /**
@@ -37,11 +46,24 @@ public class UserRepository implements Repository<User> {
      */
     @Override
     public User getById(String username) {
-        for (User user : getAll()) {
-            if (user.getUsername().equals(username)) {
-                return user;
+        String sql = "SELECT username, password, email FROM Users WHERE username = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new User(
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email")
+                    );
+                }
             }
+        } catch (SQLException e) {
+            System.out.println("Error getting user by ID: " + e.getMessage());
         }
+        
         return null;
     }
     
@@ -50,20 +72,25 @@ public class UserRepository implements Repository<User> {
      * @return List of all users
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<User> getAll() {
-        File file = new File(fileName);
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT username, password, email FROM Users";
         
-        if (!file.exists()) {
-            return new ArrayList<>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                users.add(new User(
+                    rs.getString("username"),
+                    rs.getString("password"),
+                    rs.getString("email")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting all users: " + e.getMessage());
         }
         
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            return (List<User>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Warning: Could not load users. Starting with empty user list.");
-            return new ArrayList<>();
-        }
+        return users;
     }
     
     /**
@@ -72,13 +99,21 @@ public class UserRepository implements Repository<User> {
      */
     @Override
     public void update(User user) {
-        List<User> users = getAll();
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(user.getUsername())) {
-                users.set(i, user);
-                saveAll(users);
-                return;
+        String sql = "UPDATE Users SET password = ?, email = ? WHERE username = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, user.getPassword());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getUsername());
+            
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("User updated successfully: " + user.getUsername());
+            } else {
+                System.out.println("No user found with username: " + user.getUsername());
             }
+        } catch (SQLException e) {
+            System.out.println("Error updating user: " + e.getMessage());
         }
     }
     
@@ -88,20 +123,19 @@ public class UserRepository implements Repository<User> {
      */
     @Override
     public void delete(String username) {
-        List<User> users = getAll();
-        users.removeIf(user -> user.getUsername().equals(username));
-        saveAll(users);
-    }
-    
-    /**
-     * Save all users to storage
-     * @param users List of users to save
-     */
-    private void saveAll(List<User> users) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(users);
-        } catch (IOException e) {
-            System.out.println("Error saving users: " + e.getMessage());
+        String sql = "DELETE FROM Users WHERE username = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("User deleted successfully: " + username);
+            } else {
+                System.out.println("No user found with username: " + username);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error deleting user: " + e.getMessage());
         }
     }
     
@@ -112,10 +146,25 @@ public class UserRepository implements Repository<User> {
      * @return User if authenticated, null otherwise
      */
     public User authenticateUser(String username, String password) {
-        User user = getById(username);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
+        String sql = "SELECT username, password, email FROM Users WHERE username = ? AND password = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new User(
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error authenticating user: " + e.getMessage());
         }
+        
         return null;
     }
     
@@ -125,6 +174,18 @@ public class UserRepository implements Repository<User> {
      * @return true if username exists
      */
     public boolean userExists(String username) {
-        return getById(username) != null;
+        String sql = "SELECT 1 FROM Users WHERE username = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking if user exists: " + e.getMessage());
+        }
+        
+        return false;
     }
 }

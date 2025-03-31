@@ -114,7 +114,13 @@ public class Reminder implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
-    
+    /**
+     * Set the ID of the reminder
+     * @param id new ID
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
     /**
      * Check if the reminder is due (time has passed)
      * @return true if due
@@ -125,4 +131,7 @@ public class Reminder implements Serializable {
         }
         return reminderTime.before(new Date());
     }
+    
+    
+    
 }
