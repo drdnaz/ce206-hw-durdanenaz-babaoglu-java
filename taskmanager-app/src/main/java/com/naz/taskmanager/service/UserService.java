@@ -13,10 +13,9 @@ public class UserService {
     
     /**
      * Constructor for UserService
-     * @param userDataPath Path to user data file
      */
-    public UserService(String userDataPath) {
-        this.userRepository = new UserRepository(userDataPath);
+    public UserService() {
+        this.userRepository = new UserRepository();
     }
     
     /**

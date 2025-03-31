@@ -90,8 +90,11 @@ public class Taskmanager {
      * Main menu flow
      * @param pathFileUsers Path to user data file
      */
-    public void mainMenu(String pathFileUsers) {
-        userService = new UserService(pathFileUsers);
+    /**
+     * Main menu flow
+     */
+    public void mainMenu() {
+        userService = new UserService();
         int choice;
         
         while (true) {
@@ -1131,7 +1134,7 @@ public class Taskmanager {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Taskmanager taskmanagerApp = new Taskmanager(scanner, System.out);
-        taskmanagerApp.mainMenu("users.bin");
+        taskmanagerApp.mainMenu();
     }
 
 

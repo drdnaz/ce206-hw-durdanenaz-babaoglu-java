@@ -13,9 +13,8 @@ public class UserRepository implements Repository<User> {
     
     /**
      * Constructor for UserRepository
-     * @param userDataPath Path to user data file (unused in SQLite implementation)
      */
-    public UserRepository(String userDataPath) {
+    public UserRepository() {
         this.connection = DatabaseConnection.getInstance(System.out).getConnection();
     }
     

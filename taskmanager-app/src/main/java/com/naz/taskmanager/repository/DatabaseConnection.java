@@ -1,4 +1,3 @@
-// DatabaseConnection.java (düzeltilmiş)
 package com.naz.taskmanager.repository;
 
 import java.sql.Connection;
@@ -14,14 +13,14 @@ import java.io.File;
 public class DatabaseConnection {
     private static DatabaseConnection instance;
     private Connection connection = null;
-    private static final String DB_URL = "jdbc:sqlite:taskmanager.db";
+    private static final String DB_URL = "jdbc:sqlite:data/taskmanager.db";
     private final PrintStream out;
 
     /**
      * Constructor for DatabaseConnection
      * @param out PrintStream for output messages
      */
-    public DatabaseConnection(PrintStream out) {  // Constructor public yapıldı
+    public DatabaseConnection(PrintStream out) {
         this.out = out;
     }
     
@@ -44,16 +43,23 @@ public class DatabaseConnection {
     public Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-                // SQLite sürücüsünü yükle - bazen bu gerekli olabilir
+                // Load SQLite driver
                 Class.forName("org.sqlite.JDBC");
-               
-                // Ensure database directory exists
+                
+                // Display directory information
+                File currentDir = new File(".");
+                System.out.println("Current directory: " + currentDir.getAbsolutePath());
+                
+                // Create data directory
                 File dbDir = new File("data");
                 if (!dbDir.exists()) {
-                    dbDir.mkdirs();
+                    boolean created = dbDir.mkdirs();
+                    System.out.println("Created data directory: " + created);
                 }
                 
-                connection = DriverManager.getConnection("jdbc:sqlite:data/taskmanager.db");
+                String dbPath = DB_URL;
+                System.out.println("Connecting to database: " + dbPath);
+                connection = DriverManager.getConnection(dbPath);
                 out.println("Database connection established successfully.");
             }
             return connection;

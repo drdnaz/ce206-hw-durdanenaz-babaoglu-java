@@ -43,7 +43,7 @@ public class MenuHandler {
      * Start main menu flow
      */
     public void startMainMenu() {
-        taskManager.mainMenu("users.db");
+        taskManager.mainMenu();
     }
     
     /**
