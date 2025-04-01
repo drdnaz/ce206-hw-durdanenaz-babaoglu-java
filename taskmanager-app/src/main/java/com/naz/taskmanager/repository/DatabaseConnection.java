@@ -15,12 +15,13 @@ public class DatabaseConnection {
     private Connection connection = null;
     private static final String DB_URL = "jdbc:sqlite:data/taskmanager.db";
     private final PrintStream out;
+    private boolean initialized = false;
 
     /**
-     * Constructor for DatabaseConnection
+     * Private constructor for Singleton pattern
      * @param out PrintStream for output messages
      */
-    public DatabaseConnection(PrintStream out) {
+    private DatabaseConnection(PrintStream out) {
         this.out = out;
     }
     
@@ -37,32 +38,48 @@ public class DatabaseConnection {
     }
 
     /**
-     * Get database connection
+     * Get database connection - opens connection if closed
      * @return Active database connection
      */
-    public Connection getConnection() {
+    public synchronized Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-                // Load SQLite driver
-                Class.forName("org.sqlite.JDBC");
-                
-                // Display directory information
-                File currentDir = new File(".");
-                System.out.println("Current directory: " + currentDir.getAbsolutePath());
-                
-                // Create data directory
-                File dbDir = new File("data");
-                if (!dbDir.exists()) {
-                    boolean created = dbDir.mkdirs();
-                    System.out.println("Created data directory: " + created);
-                }
-                
-                String dbPath = DB_URL;
-                System.out.println("Connecting to database: " + dbPath);
-                connection = DriverManager.getConnection(dbPath);
-                out.println("Database connection established successfully.");
+                openConnection();
             }
             return connection;
+        } catch (SQLException e) {
+            out.println("Error checking connection state: " + e.getMessage());
+            return null;
+        }
+    }
+    
+    /**
+     * Open a new database connection
+     */
+    private void openConnection() {
+        try {
+            // Load SQLite driver
+            Class.forName("org.sqlite.JDBC");
+            
+            // Create data directory if it doesn't exist
+            File dbDir = new File("data");
+            if (!dbDir.exists()) {
+                boolean created = dbDir.mkdirs();
+                System.out.println("Created data directory: " + created);
+            }
+            
+            // Open connection
+            connection = DriverManager.getConnection(DB_URL);
+            
+            // Enable foreign keys if not initialized yet
+            if (!initialized) {
+                try (Statement stmt = connection.createStatement()) {
+                    stmt.execute("PRAGMA foreign_keys = ON");
+                }
+                initialized = true;
+            }
+            
+            out.println("Database connection established");
         } catch (SQLException e) {
             out.println("Error connecting to database: " + e.getMessage());
             e.printStackTrace();
@@ -70,24 +87,32 @@ public class DatabaseConnection {
             out.println("SQLite JDBC driver not found: " + e.getMessage());
             e.printStackTrace();
         }
-        return connection;
     }
     
     /**
      * Close database connection
      */
-    public void closeConnection() {
+    public synchronized void closeConnection() {
         if (connection != null) {
             try {
                 if (!connection.isClosed()) {
                     connection.close();
+                    out.println("Database connection closed");
                 }
                 connection = null;
-                out.println("Database connection closed successfully.");
             } catch (SQLException e) {
                 out.println("Error closing database connection: " + e.getMessage());
             }
         }
+    }
+    
+    /**
+     * Release connection back to the pool (doesn't actually close it in this implementation)
+     * In a real connection pool, this would return the connection to the pool
+     */
+    public synchronized void releaseConnection() {
+        // In a real connection pool, you would return the connection to the pool here
+        // For now, we'll do nothing and let the connection remain open
     }
 
     /**
@@ -129,8 +154,8 @@ public class DatabaseConnection {
                 "priority INTEGER DEFAULT 1, " + // 0: HIGH, 1: MEDIUM, 2: LOW
                 "completed INTEGER DEFAULT 0, " +
                 "creation_date TEXT NOT NULL, " +
-                "FOREIGN KEY(username) REFERENCES Users(username), " +
-                "FOREIGN KEY(category_id) REFERENCES Categories(id)" +
+                "FOREIGN KEY(username) REFERENCES Users(username) ON DELETE CASCADE, " +
+                "FOREIGN KEY(category_id) REFERENCES Categories(id) ON DELETE CASCADE" +
                 ")"
             );
             
@@ -157,7 +182,7 @@ public class DatabaseConnection {
                 "end_date TEXT, " +
                 "creation_date TEXT NOT NULL, " +
                 "completed INTEGER DEFAULT 0, " +
-                "FOREIGN KEY(username) REFERENCES Users(username)" +
+                "FOREIGN KEY(username) REFERENCES Users(username) ON DELETE CASCADE" +
                 ")"
             );
             

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Represents user notification preferences
  */
-public class NotificationSettings implements Serializable {
+public class NotificationSettings  {
     /** Unique identifier for serialization */
     private static final long serialVersionUID = 1L;
 

@@ -1,30 +1,62 @@
-// DateUtils.java
 package com.naz.taskmanager.util;
-
+import com.naz.taskmanager.util.DateUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+import com.naz.taskmanager.util.DateUtils; // Bu satırı ekleyin
 /**
  * Utility class for date operations
  */
 public class DateUtils {
-    
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	public static final SimpleDateFormat DB_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat UI_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     
     /**
-     * Format date to string representation
+     * Convert UI date format to database format
      * @param date Date to format
      * @return Formatted date string
      */
-    public static String formatDate(Date date) {
-        if (date == null) {
-            return "Not set";
-        }
-        return DATE_FORMAT.format(date);
-    }
-    
+	    public static String convertUIDateToDBFormat(Date date) {
+	        if (date == null) {
+	            return null;
+	        }
+	        return DB_DATE_FORMAT.format(date);
+	    }
+	    
+	    /**
+	     * Convert database date to UI format
+	     * @param date Date to convert
+	     * @return Formatted string for UI
+	     */
+	    public static String convertDBDateToUIFormat(Date date) {
+	        if (date == null) {
+	            return "Not set";
+	        }
+	        return UI_DATE_FORMAT.format(date);
+	    }
+	    
+	    /**
+	     * Format date to ISO 8601 format for SQLite
+	     * @param date Date to format
+	     * @return ISO 8601 formatted date string
+	     */
+	    public static String toSQLiteFormat(Date date) {
+	        if (date == null) {
+	            return null;
+	        }
+	        return DB_DATE_FORMAT.format(date);
+	    }
+	    
+	    
+	    // Mevcut formatDate metodunu güncelle
+	    public static String formatDate(Date date) {
+	        if (date == null) {
+	            return "Not set";
+	        }
+	        return UI_DATE_FORMAT.format(date);
+	    }
+	    
     /**
      * Parse date from string
      * @param dateStr Date string in format dd/MM/yyyy HH:mm
@@ -35,7 +67,7 @@ public class DateUtils {
         if (dateStr == null || dateStr.trim().isEmpty()) {
             return null;
         }
-        return DATE_FORMAT.parse(dateStr);
+        return UI_DATE_FORMAT.parse(dateStr);
     }
     
     /**

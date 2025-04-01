@@ -7,7 +7,7 @@ import java.util.Date;
  * Base abstract class for all items in the task manager application
  * Implements abstraction through an abstract class
  */
-public abstract class BaseItem implements Serializable {
+public abstract class BaseItem {
     private static final long serialVersionUID = 1L;
     
     protected String id;

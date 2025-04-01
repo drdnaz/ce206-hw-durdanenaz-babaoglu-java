@@ -122,17 +122,8 @@ public class TaskService {
      * @return List of tasks in the date range
      */
     public List<TaskmanagerItem> getTasksInDateRange(Date startDate, Date endDate) {
-        return getAllTasks().stream()
-                .filter(task -> {
-                    Date deadline = task.getDeadline();
-                    if (deadline == null) {
-                        return false;
-                    }
-                    return deadline.after(startDate) && deadline.before(endDate);
-                })
-                .collect(Collectors.toList());
+        return taskRepository.getTasksInDateRange(startDate, endDate);
     }
-    
     /**
      * Strategy Pattern: Interface for task sorting strategies
      */

@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Represents a reminder for a task
  */
-public class Reminder implements Serializable {
+public class Reminder {
     private static final long serialVersionUID = 1L;
     
     private String id;

@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import com.naz.taskmanager.util.DateUtils; // Bu satırı ekleyin
 /**
  * Repository for TaskmanagerItem entities using SQLite
  */
@@ -155,6 +155,35 @@ public class TaskRepository implements Repository<TaskmanagerItem> {
         }
         
         return null;
+    }
+    
+    
+    /**
+     * Get tasks in date range
+     * @param startDate Start date
+     * @param endDate End date
+     * @return List of tasks in date range
+     */
+    public List<TaskmanagerItem> getTasksInDateRange(Date startDate, Date endDate) {
+        List<TaskmanagerItem> tasksInRange = new ArrayList<>();
+        String sql = "SELECT id, name, description, category_id, deadline, priority, " + 
+                     "completed, creation_date FROM Tasks WHERE username = ? AND deadline BETWEEN ? AND ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, DateUtils.toSQLiteFormat(startDate));
+            stmt.setString(3, DateUtils.toSQLiteFormat(endDate));
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    tasksInRange.add(createTaskFromResultSet(rs));
+                }
+            }
+        } catch (SQLException | ParseException e) {
+            System.out.println("Error getting tasks in date range: " + e.getMessage());
+        }
+        
+        return tasksInRange;
     }
     
     /**

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Represents a category for Taskmanager items
  */
-public class Category implements Serializable {
+public class Category {
     /** Unique identifier for serialization */
     private static final long serialVersionUID = 1L;
 
