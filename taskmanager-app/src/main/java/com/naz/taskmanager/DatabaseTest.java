@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class DatabaseTest {
     public static void main(String[] args) {
-        DatabaseConnection dbConnection = new DatabaseConnection(System.out);
+        DatabaseConnection dbConnection = DatabaseConnection.getInstance(System.out);
         
         try (Connection conn = dbConnection.getConnection();
              Statement stmt = conn.createStatement()) {
