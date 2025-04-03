@@ -162,6 +162,7 @@ public class UserRepository implements Repository<User> {
             }
         } catch (SQLException e) {
             System.out.println("Error authenticating user: " + e.getMessage());
+            return null;
         }
         
         return null;

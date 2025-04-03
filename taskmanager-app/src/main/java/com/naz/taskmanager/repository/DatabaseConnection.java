@@ -57,6 +57,8 @@ public class DatabaseConnection {
      * Open a new database connection
      */
     private void openConnection() {
+    	File dbFile = new File("data/taskmanager.db");
+    	out.println("Veritabanı dosyası tam yolu: " + dbFile.getAbsolutePath());
         try {
             // Load SQLite driver
             Class.forName("org.sqlite.JDBC");

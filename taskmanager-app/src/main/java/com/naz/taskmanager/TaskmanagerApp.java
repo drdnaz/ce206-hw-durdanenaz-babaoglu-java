@@ -15,7 +15,7 @@ public class TaskmanagerApp {
         // Create scanner for user input
         Scanner scanner = new Scanner(System.in);
         Taskmanager taskmanagerApp = new Taskmanager(scanner, System.out);
-        taskmanagerApp.mainMenu(); // String parametre kaldırıldı
+        
         // Initialize database
         System.out.println("Initializing database...");
         DatabaseConnection.getInstance(System.out).initializeDatabase();
