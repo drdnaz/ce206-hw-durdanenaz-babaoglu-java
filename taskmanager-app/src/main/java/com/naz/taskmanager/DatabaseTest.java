@@ -13,6 +13,10 @@ public class DatabaseTest {
         try (Connection conn = dbConnection.getConnection();
              Statement stmt = conn.createStatement()) {
             
+            // Önce mevcut test kullanıcısını silme
+            String deleteUser = "DELETE FROM Users WHERE username = 'testuser'";
+            stmt.execute(deleteUser);
+            
             // Örnek bir kullanıcı ekleme
             String insertUser = "INSERT INTO Users (username, password, email) VALUES ('testuser', 'testpass', 'test@example.com')";
             stmt.execute(insertUser);

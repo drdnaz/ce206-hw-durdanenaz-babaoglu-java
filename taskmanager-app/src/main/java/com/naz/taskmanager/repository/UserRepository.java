@@ -24,6 +24,19 @@ public class UserRepository implements Repository<User> {
      */
     @Override
     public void save(User user) {
+        // Önce kullanıcının var olup olmadığını kontrol et
+        if (userExists(user.getUsername())) {
+            try {
+                // Kullanıcı varsa güncelle
+                update(user);
+                System.out.println("User updated successfully: " + user.getUsername());
+                return;
+            } catch (Exception e) {
+                System.out.println("Error updating user: " + e.getMessage());
+                throw new RuntimeException("Error updating user", e);
+            }
+        }
+        
         String sql = "INSERT INTO Users (username, password, email) VALUES (?, ?, ?)";
         
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -35,6 +48,7 @@ public class UserRepository implements Repository<User> {
             System.out.println("User saved successfully: " + user.getUsername());
         } catch (SQLException e) {
             System.out.println("Error saving user: " + e.getMessage());
+            throw new RuntimeException("Error saving user", e);
         }
     }
     
@@ -61,6 +75,7 @@ public class UserRepository implements Repository<User> {
             }
         } catch (SQLException e) {
             System.out.println("Error getting user by ID: " + e.getMessage());
+            throw new RuntimeException("Error getting user by ID", e);
         }
         
         return null;
@@ -87,6 +102,7 @@ public class UserRepository implements Repository<User> {
             }
         } catch (SQLException e) {
             System.out.println("Error getting all users: " + e.getMessage());
+            throw new RuntimeException("Error getting all users", e);
         }
         
         return users;
@@ -110,9 +126,11 @@ public class UserRepository implements Repository<User> {
                 System.out.println("User updated successfully: " + user.getUsername());
             } else {
                 System.out.println("No user found with username: " + user.getUsername());
+                throw new RuntimeException("User not found: " + user.getUsername());
             }
         } catch (SQLException e) {
             System.out.println("Error updating user: " + e.getMessage());
+            throw new RuntimeException("Error updating user", e);
         }
     }
     
@@ -135,6 +153,7 @@ public class UserRepository implements Repository<User> {
             }
         } catch (SQLException e) {
             System.out.println("Error deleting user: " + e.getMessage());
+            throw new RuntimeException("Error deleting user", e);
         }
     }
     
@@ -162,7 +181,7 @@ public class UserRepository implements Repository<User> {
             }
         } catch (SQLException e) {
             System.out.println("Error authenticating user: " + e.getMessage());
-            return null;
+            throw new RuntimeException("Error authenticating user", e);
         }
         
         return null;
@@ -184,8 +203,7 @@ public class UserRepository implements Repository<User> {
             }
         } catch (SQLException e) {
             System.out.println("Error checking if user exists: " + e.getMessage());
+            throw new RuntimeException("Error checking if user exists", e);
         }
-        
-        return false;
     }
 }
