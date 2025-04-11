@@ -1,4 +1,3 @@
-// MainMenu.java (güncellendi)
 package com.naz.taskmanager.ui.menu;
 
 import com.naz.taskmanager.Taskmanager;
@@ -8,16 +7,28 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
- * Main menu implementation
+ * Main menu implementation.
+ * Provides options for login, registration, and exiting the application.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class MainMenu implements Menu {
+    /** Scanner for user input */
     private final Scanner scanner;
+    
+    /** PrintStream for output */
     private final PrintStream out;
+    
+    /** Taskmanager instance */
     private final Taskmanager taskManager;
+    
+    /** User service for authentication */
     private final UserService userService;
     
     /**
      * Constructor for MainMenu
+     * 
      * @param scanner Scanner for user input
      * @param out PrintStream for output
      * @param taskManager Taskmanager instance
@@ -40,6 +51,7 @@ public class MainMenu implements Menu {
     
     /**
      * Handle menu selection
+     * 
      * @param choice User's menu choice
      * @return true if should continue, false to exit
      */

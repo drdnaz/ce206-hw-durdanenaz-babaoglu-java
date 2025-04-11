@@ -1,4 +1,3 @@
-// ConsoleUI.java
 package com.naz.taskmanager.ui;
 
 import com.naz.taskmanager.Taskmanager;
@@ -11,19 +10,39 @@ import java.util.Scanner;
 import java.util.Date;
 
 /**
- * Console user interface class
+ * @brief Console user interface class.
+ * 
+ * @details Handles display and interaction with users through the console.
+ * Provides methods for displaying tasks, creating tasks, and managing reminders.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class ConsoleUI {
+    /** @brief Scanner for user input */
     private final Scanner scanner;
+    
+    /** @brief PrintStream for output */
     private final PrintStream out;
+    
+    /** @brief Handler for user input */
     private final InputHandler inputHandler;
+    
+    /** @brief Task service */
     private final TaskService taskService;
+    
+    /** @brief Reminder service */
     private final ReminderService reminderService;
+    
+    /** @brief Taskmanager instance */
     private final Taskmanager taskManager;
+    
+    /** @brief Date format for display */
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     
     /**
-     * Constructor for ConsoleUI
+     * @brief Constructor for ConsoleUI
+     * 
      * @param scanner Scanner for user input
      * @param out PrintStream for output
      * @param taskManager Taskmanager instance
@@ -41,7 +60,9 @@ public class ConsoleUI {
     }
     
     /**
-     * Display all tasks
+     * @brief Display all tasks
+     * 
+     * @details Shows a list of all tasks with their details.
      */
     public void displayAllTasks() {
         List<TaskmanagerItem> tasks = taskService.getAllTasks();
@@ -61,7 +82,8 @@ public class ConsoleUI {
     }
     
     /**
-     * Display task details
+     * @brief Display task details
+     * 
      * @param index Task index
      * @param task Task to display
      */
@@ -83,7 +105,9 @@ public class ConsoleUI {
     }
     
     /**
-     * Display tasks by priority
+     * @brief Display tasks by priority
+     * 
+     * @details Shows tasks grouped by their priority level.
      */
     public void displayTasksByPriority() {
         List<TaskmanagerItem> tasks = taskService.sortTasksByPriority();
@@ -104,7 +128,8 @@ public class ConsoleUI {
     }
     
     /**
-     * Display tasks with specific priority
+     * @brief Display tasks with specific priority
+     * 
      * @param tasks List of all tasks
      * @param priority Priority to filter by
      */
@@ -126,7 +151,11 @@ public class ConsoleUI {
     }
     
     /**
-     * Create a new task with user input
+     * @brief Create a new task with user input
+     * 
+     * @details Guides the user through the process of creating a new task,
+     * including setting name, description, category, deadline, and priority.
+     * 
      * @return Created task
      */
     public TaskmanagerItem createTaskWithUserInput() {
@@ -191,7 +220,8 @@ public class ConsoleUI {
     }
     
     /**
-     * Assign deadline to a task
+     * @brief Assign deadline to a task
+     * 
      * @param task Task to assign deadline to
      */
     private void assignDeadlineToTask(TaskmanagerItem task) {
@@ -225,7 +255,8 @@ public class ConsoleUI {
     }
     
     /**
-     * Select a category from existing ones or create new
+     * @brief Select a category from existing ones or create new
+     * 
      * @return Selected or created category
      */
     private Category selectCategory() {
@@ -264,7 +295,9 @@ public class ConsoleUI {
     }
     
     /**
-     * Mark task as completed
+     * @brief Mark task as completed
+     * 
+     * @details Shows a list of tasks and allows the user to select one to mark as completed.
      */
     public void markTaskAsCompleted() {
         taskManager.clearScreen();
@@ -299,7 +332,10 @@ public class ConsoleUI {
     }
     
     /**
-     * Create reminder for a task
+     * @brief Create reminder for a task
+     * 
+     * @details Shows a list of tasks with deadlines and allows the user to set
+     * a reminder for a selected task.
      */
     public void createReminder() {
         taskManager.clearScreen();
@@ -354,7 +390,8 @@ public class ConsoleUI {
     }
     
     /**
-     * Create reminder for a specific task
+     * @brief Create reminder for a specific task
+     * 
      * @param task Task to create reminder for
      */
     private void createReminderForTask(TaskmanagerItem task) {

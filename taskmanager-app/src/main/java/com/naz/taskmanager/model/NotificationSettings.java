@@ -3,9 +3,13 @@ package com.naz.taskmanager.model;
 import java.io.Serializable;
 
 /**
- * Represents user notification preferences
+ * Represents user notification preferences.
+ * Controls how and when users receive notifications about tasks and reminders.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
-public class NotificationSettings  {
+public class NotificationSettings {
     /** Unique identifier for serialization */
     private static final long serialVersionUID = 1L;
 
@@ -19,48 +23,54 @@ public class NotificationSettings  {
     private int defaultReminderMinutes = 30;
 
     /**
-     * Check if email notifications are enabled
-     * @return email notification status
+     * Checks if email notifications are enabled
+     * 
+     * @return Email notification status
      */
     public boolean isEmailEnabled() {
         return emailEnabled;
     }
 
     /**
-     * Set email notification status
-     * @param emailEnabled new email notification status
+     * Sets email notification status
+     * 
+     * @param emailEnabled New email notification status
      */
     public void setEmailEnabled(boolean emailEnabled) {
         this.emailEnabled = emailEnabled;
     }
 
     /**
-     * Check if app notifications are enabled
-     * @return app notification status
+     * Checks if app notifications are enabled
+     * 
+     * @return App notification status
      */
     public boolean isAppNotificationsEnabled() {
         return appNotificationsEnabled;
     }
 
     /**
-     * Set app notification status
-     * @param appNotificationsEnabled new app notification status
+     * Sets app notification status
+     * 
+     * @param appNotificationsEnabled New app notification status
      */
     public void setAppNotificationsEnabled(boolean appNotificationsEnabled) {
         this.appNotificationsEnabled = appNotificationsEnabled;
     }
 
     /**
-     * Get default reminder time
-     * @return default reminder time in minutes
+     * Gets default reminder time
+     * 
+     * @return Default reminder time in minutes
      */
     public int getDefaultReminderMinutes() {
         return defaultReminderMinutes;
     }
 
     /**
-     * Set default reminder time
-     * @param defaultReminderMinutes new default reminder time in minutes
+     * Sets default reminder time
+     * 
+     * @param defaultReminderMinutes New default reminder time in minutes
      */
     public void setDefaultReminderMinutes(int defaultReminderMinutes) {
         this.defaultReminderMinutes = defaultReminderMinutes;

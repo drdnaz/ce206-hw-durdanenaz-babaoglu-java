@@ -2778,3 +2778,9 @@ GENERATE_LEGEND        = YES
 # The default value is: YES.
 
 DOT_CLEANUP            = YES
+
+# mainpage.dox dosyasını girdi olarak eklemek için:
+INPUT += mainpage.dox
+
+# Veya alternatif olarak:
+USE_MDFILE_AS_MAINPAGE = mainpage.dox

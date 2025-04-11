@@ -4,14 +4,23 @@ import com.naz.taskmanager.model.NotificationSettings;
 import java.sql.*;
 
 /**
- * Repository for NotificationSettings using SQLite
+ * @brief Repository for NotificationSettings using SQLite database.
+ * 
+ * @details Handles persistence of user notification preferences.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class SettingsRepository {
+    /** @brief Database connection */
     private final Connection connection;
+    
+    /** @brief Username for user-specific settings */
     private final String username;
     
     /**
-     * Constructor for SettingsRepository
+     * @brief Constructor for SettingsRepository
+     * 
      * @param username Username for user-specific settings
      */
     public SettingsRepository(String username) {
@@ -20,7 +29,8 @@ public class SettingsRepository {
     }
     
     /**
-     * Save notification settings
+     * @brief Saves notification settings to the database
+     * 
      * @param settings NotificationSettings to save
      */
     public void saveSettings(NotificationSettings settings) {
@@ -41,7 +51,8 @@ public class SettingsRepository {
     }
     
     /**
-     * Get notification settings
+     * @brief Gets notification settings from the database
+     * 
      * @return NotificationSettings for the user
      */
     public NotificationSettings getSettings() {

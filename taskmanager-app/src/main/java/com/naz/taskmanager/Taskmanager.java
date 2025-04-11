@@ -9,47 +9,78 @@ import com.naz.taskmanager.service.*;
 import com.naz.taskmanager.ui.menu.*;
 
 /**
- * Main application class that implements the Singleton pattern
+ * @brief Main application class that implements the Singleton pattern.
+ * 
+ * @details Acts as the central controller for the TaskManager application.
+ * Manages user sessions, navigates between different menus, and coordinates
+ * all application operations.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
+
 public class Taskmanager {
+	/** @brief Singleton instance of the Taskmanager */
     private static Taskmanager instance;
     
+    /** @brief Scanner for user input */
     private final Scanner in;
+    
+    /** @brief PrintStream for output */
     private final PrintStream out;
+    
+    /** @brief Currently logged-in user */
     private User currentUser;
+    
+    /** @brief Date format for displaying dates */
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     
     // Services
+    /** @brief Service for task operations */
     private TaskService taskService;
+    
+    /** @brief Service for reminder operations */
     private ReminderService reminderService;
+    
+    /** @brief Service for user operations */
     private UserService userService;
     
     /**
-     * Private constructor for Singleton pattern
+     * @brief Private constructor for Singleton pattern.
+     * 
+     * @details Initializes input and output streams.
+     * 
      * @param in Scanner for user input
      * @param out PrintStream for output
      */
+    
     public Taskmanager(Scanner in, PrintStream out) {
         this.in = in;
         this.out = out;
     }
     
     /**
-     * Get singleton instance
+     * @brief Gets the singleton instance of Taskmanager.
+     * 
+     * @details Creates a new instance if one doesn't exist.
+     * 
      * @param in Scanner for user input
      * @param out PrintStream for output
-     * @return Singleton instance
+     * @return Singleton instance of Taskmanager
      */
+    
     public static synchronized Taskmanager getInstance(Scanner in, PrintStream out) {
         if (instance == null) {
             instance = new Taskmanager(in, out);
         }
         return instance;
     }
-    
     /**
-     * Clear console screen
+     * @brief Clears the console screen.
+     * 
+     * @details Uses ANSI escape codes and multiple line feeds.
      */
+    
     public void clearScreen() {
         out.print("\033[H\033[2J");
         out.flush();
@@ -60,17 +91,20 @@ public class Taskmanager {
     }
     
     /**
-     * Wait for user to press Enter
+     * @brief Waits for user to press Enter to continue.
      */
+    
     public void enterToContinue() {
         out.print("Press Enter to continue...");
         in.nextLine();
     }
     
     /**
-     * Get integer input from user
-     * @return User input as integer, -2 if error
+     * @brief Gets integer input from user.
+     * 
+     * @return User input as integer, or -2 if input is not a valid number
      */
+    
     public int getInput() {
         try {
             return Integer.parseInt(in.nextLine().trim());
@@ -80,19 +114,19 @@ public class Taskmanager {
     }
     
     /**
-     * Handle input error
+     * @brief Handles invalid input by displaying an error message.
      */
+    
     public void handleInputError() {
         out.println("Invalid input. Please enter a number.");
     }
     
     /**
-     * Main menu flow
-     * @param pathFileUsers Path to user data file
+     * @brief Main menu flow handler.
+     * 
+     * @details Shows opening screen and handles navigation to login, register, or exit options.
      */
-    /**
-     * Main menu flow
-     */
+    
     public void mainMenu() {
         userService = new UserService();
         int choice;
@@ -131,8 +165,9 @@ public class Taskmanager {
     }
     
     /**
-     * Display opening screen menu
+     * @brief Displays the opening screen with main menu options.
      */
+    
     public void openingScreenMenu() {
         out.println("*****************************************");
         out.println("*                                       *");
@@ -148,9 +183,11 @@ public class Taskmanager {
     }
     
     /**
-     * Login user menu
-     * @return true if login successful
+     * @brief Handles user login process.
+     * 
+     * @return true if login successful, false otherwise
      */
+    
     public boolean loginUserMenu() {
         out.println("========================================");
         out.println("               USER LOGIN              ");
@@ -178,8 +215,9 @@ public class Taskmanager {
     }
     
     /**
-     * Register user menu
+     * @brief Handles user registration process.
      */
+    
     public void registerUserMenu() {
         out.println("========================================");
         out.println("           REGISTER NEW USER           ");
@@ -214,8 +252,12 @@ public class Taskmanager {
     }
     
     /**
-     * Initialize services for current user
+     * @brief Initialize services for current user.
+     * 
+     * @details Creates task and reminder services for the logged-in user
+     * and sets up the reminder observer.
      */
+    
     public void initializeServices() {
         if (currentUser != null) {
             taskService = new TaskService(currentUser.getUsername());
@@ -237,8 +279,12 @@ public class Taskmanager {
     }
     
     /**
-     * User options menu
+     * @brief User options menu after successful login.
+     * 
+     * @details Shows the main menu with options for task management,
+     * deadlines, reminders, prioritization, and logout.
      */
+    
     public void userOptionsMenu() {
         int choice;
         while (true) {
@@ -275,8 +321,11 @@ public class Taskmanager {
     }
     
     /**
-     * Logout current user
+     * @brief Logs out the current user.
+     * 
+     * @details Clears user data and services.
      */
+    
     private void logout() {
         currentUser = null;
         taskService = null;

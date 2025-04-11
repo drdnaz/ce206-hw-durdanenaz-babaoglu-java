@@ -4,19 +4,33 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Represents a reminder for a task
+ * Represents a reminder for a task.
+ * Reminders notify users about upcoming or overdue tasks at specified times.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class Reminder {
+    /** Serial version UID for serialization */
     private static final long serialVersionUID = 1L;
     
+    /** Unique identifier for the reminder */
     private String id;
+    
+    /** ID of the associated task */
     private String taskId;
+    
+    /** Time when the reminder should trigger */
     private Date reminderTime;
+    
+    /** Flag indicating if the reminder has been triggered */
     private boolean triggered;
+    
+    /** Optional message for the reminder */
     private String message;
     
     /**
-     * Default constructor
+     * Default constructor for creating a new Reminder
      */
     public Reminder() {
         this.id = generateId();
@@ -25,6 +39,7 @@ public class Reminder {
     
     /**
      * Constructor with taskId and reminderTime
+     * 
      * @param taskId ID of the task
      * @param reminderTime Time for the reminder
      */
@@ -36,7 +51,8 @@ public class Reminder {
     }
     
     /**
-     * Generate a unique ID
+     * Generates a unique ID based on timestamp and random value
+     * 
      * @return Unique ID string
      */
     private String generateId() {
@@ -44,7 +60,8 @@ public class Reminder {
     }
     
     /**
-     * Get the ID of the reminder
+     * Gets the ID of the reminder
+     * 
      * @return Reminder ID
      */
     public String getId() {
@@ -52,7 +69,8 @@ public class Reminder {
     }
     
     /**
-     * Get the task ID associated with this reminder
+     * Gets the task ID associated with this reminder
+     * 
      * @return Task ID
      */
     public String getTaskId() {
@@ -60,7 +78,8 @@ public class Reminder {
     }
     
     /**
-     * Set the task ID for this reminder
+     * Sets the task ID for this reminder
+     * 
      * @param taskId New task ID
      */
     public void setTaskId(String taskId) {
@@ -68,15 +87,17 @@ public class Reminder {
     }
     
     /**
-     * Get the reminder time
-     * @return Reminder time
+     * Gets the reminder time
+     * 
+     * @return Reminder time as a defensive copy
      */
     public Date getReminderTime() {
         return reminderTime != null ? (Date) reminderTime.clone() : null;
     }
     
     /**
-     * Set the reminder time
+     * Sets the reminder time
+     * 
      * @param reminderTime New reminder time
      */
     public void setReminderTime(Date reminderTime) {
@@ -84,15 +105,17 @@ public class Reminder {
     }
     
     /**
-     * Check if the reminder has been triggered
-     * @return true if triggered
+     * Checks if the reminder has been triggered
+     * 
+     * @return true if triggered, false otherwise
      */
     public boolean isTriggered() {
         return triggered;
     }
     
     /**
-     * Set whether the reminder has been triggered
+     * Sets the triggered status of the reminder
+     * 
      * @param triggered New triggered status
      */
     public void setTriggered(boolean triggered) {
@@ -100,7 +123,8 @@ public class Reminder {
     }
     
     /**
-     * Get the reminder message
+     * Gets the reminder message
+     * 
      * @return Reminder message
      */
     public String getMessage() {
@@ -108,22 +132,27 @@ public class Reminder {
     }
     
     /**
-     * Set the reminder message
+     * Sets the reminder message
+     * 
      * @param message New message
      */
     public void setMessage(String message) {
         this.message = message;
     }
+    
     /**
-     * Set the ID of the reminder
-     * @param id new ID
+     * Sets the ID of the reminder
+     * 
+     * @param id New ID
      */
     public void setId(String id) {
         this.id = id;
     }
+    
     /**
-     * Check if the reminder is due (time has passed)
-     * @return true if due
+     * Checks if the reminder is due (time has passed)
+     * 
+     * @return true if due and not yet triggered
      */
     public boolean isDue() {
         if (reminderTime == null || triggered) {
@@ -131,7 +160,4 @@ public class Reminder {
         }
         return reminderTime.before(new Date());
     }
-    
-    
-    
 }

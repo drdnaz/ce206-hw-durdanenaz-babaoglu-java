@@ -1,4 +1,3 @@
-// MenuHandler.java
 package com.naz.taskmanager.ui;
 
 import com.naz.taskmanager.Taskmanager;
@@ -9,18 +8,34 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
- * Handler for menu navigation
+ * Handler for menu navigation.
+ * Coordinates different menu screens and manages navigation between them.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class MenuHandler {
+    /** Scanner for user input */
     private final Scanner scanner;
+    
+    /** PrintStream for output */
     private final PrintStream out;
+    
+    /** Task service */
     private final TaskService taskService;
+    
+    /** Reminder service */
     private final ReminderService reminderService;
+    
+    /** User service */
     private final UserService userService;
+    
+    /** Taskmanager instance */
     private final Taskmanager taskManager;
     
     /**
      * Constructor for MenuHandler
+     * 
      * @param scanner Scanner for user input
      * @param out PrintStream for output
      * @param taskManager Taskmanager instance

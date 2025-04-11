@@ -6,9 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Repository for User entities using SQLite
+ * Repository for User entities using SQLite database.
+ * Implements the Repository interface for user data persistence.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class UserRepository implements Repository<User> {
+    /** Database connection */
     private final Connection connection;
     
     /**
@@ -19,15 +24,17 @@ public class UserRepository implements Repository<User> {
     }
     
     /**
-     * Save a new user
+     * Saves a new user to the database.
+     * Updates the user if it already exists.
+     * 
      * @param user User to save
      */
     @Override
     public void save(User user) {
-        // Önce kullanıcının var olup olmadığını kontrol et
+        // First check if user already exists
         if (userExists(user.getUsername())) {
             try {
-                // Kullanıcı varsa güncelle
+                // Update user if it exists
                 update(user);
                 System.out.println("User updated successfully: " + user.getUsername());
                 return;
@@ -53,7 +60,8 @@ public class UserRepository implements Repository<User> {
     }
     
     /**
-     * Get a user by username (ID)
+     * Gets a user by username (ID)
+     * 
      * @param username Username as ID
      * @return User with matching username, or null if not found
      */
@@ -82,7 +90,8 @@ public class UserRepository implements Repository<User> {
     }
     
     /**
-     * Get all users
+     * Gets all users from the database
+     * 
      * @return List of all users
      */
     @Override
@@ -109,7 +118,8 @@ public class UserRepository implements Repository<User> {
     }
     
     /**
-     * Update an existing user
+     * Updates an existing user in the database
+     * 
      * @param user User to update
      */
     @Override
@@ -135,7 +145,8 @@ public class UserRepository implements Repository<User> {
     }
     
     /**
-     * Delete a user by username
+     * Deletes a user by username from the database
+     * 
      * @param username Username of user to delete
      */
     @Override
@@ -158,7 +169,8 @@ public class UserRepository implements Repository<User> {
     }
     
     /**
-     * Authenticate a user
+     * Authenticates a user with username and password
+     * 
      * @param username Username
      * @param password Password
      * @return User if authenticated, null otherwise
@@ -188,7 +200,8 @@ public class UserRepository implements Repository<User> {
     }
     
     /**
-     * Check if a username exists
+     * Checks if a username exists in the database
+     * 
      * @param username Username to check
      * @return true if username exists
      */

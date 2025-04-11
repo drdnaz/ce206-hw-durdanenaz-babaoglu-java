@@ -1,4 +1,3 @@
-// DeadLineMenu.java (güncellendi)
 package com.naz.taskmanager.ui.menu;
 
 import com.naz.taskmanager.Taskmanager;
@@ -8,16 +7,28 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
- * Deadline settings menu implementation
+ * Deadline settings menu implementation.
+ * Provides options for managing task deadlines.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class DeadLineMenu implements Menu {
+    /** Scanner for user input */
     private final Scanner scanner;
+    
+    /** PrintStream for output */
     private final PrintStream out;
+    
+    /** Taskmanager instance */
     private final Taskmanager taskManager;
+    
+    /** Task service */
     private final TaskService taskService;
     
     /**
      * Constructor for DeadLineMenu
+     * 
      * @param scanner Scanner for user input
      * @param out PrintStream for output
      * @param taskManager Taskmanager instance
@@ -40,6 +51,7 @@ public class DeadLineMenu implements Menu {
     
     /**
      * Handle menu selection
+     * 
      * @param choice User's menu choice
      * @return true if should continue, false to exit
      */

@@ -1,4 +1,3 @@
-// AbstractMenu.java
 package com.naz.taskmanager.ui.menu;
 
 import com.naz.taskmanager.Taskmanager;
@@ -7,15 +6,27 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
- * Abstract base class for all menus
+ * @brief Abstract base class for all menus.
+ * 
+ * @details Implements common menu behavior while allowing subclasses to customize specific aspects.
+ * Part of the Template Method design pattern for menu implementation.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public abstract class AbstractMenu implements Menu {
+    /** @brief Scanner for user input */
     protected final Scanner scanner;
+    
+    /** @brief PrintStream for output */
     protected final PrintStream out;
+    
+    /** @brief Taskmanager instance */
     protected final Taskmanager taskManager;
     
     /**
-     * Constructor for AbstractMenu
+     * @brief Constructor for AbstractMenu
+     * 
      * @param scanner Scanner for user input
      * @param out PrintStream for output
      * @param taskManager Taskmanager instance
@@ -27,7 +38,10 @@ public abstract class AbstractMenu implements Menu {
     }
     
     /**
-     * Show the menu and handle user input
+     * @brief Template method for showing the menu and handling user input.
+     * 
+     * @details Defines the structure of the algorithm while allowing subclasses
+     * to override specific steps.
      */
     public void showMenu() {
         taskManager.clearScreen();
@@ -48,7 +62,9 @@ public abstract class AbstractMenu implements Menu {
     }
     
     /**
-     * Print menu header
+     * @brief Prints menu header.
+     * 
+     * @details Can be overridden by subclasses for custom header formatting.
      */
     protected void printHeader() {
         out.println("========================================");
@@ -57,7 +73,9 @@ public abstract class AbstractMenu implements Menu {
     }
     
     /**
-     * Print menu footer
+     * @brief Prints menu footer.
+     * 
+     * @details Can be overridden by subclasses for custom footer formatting.
      */
     protected void printFooter() {
         out.println("========================================");
@@ -65,7 +83,10 @@ public abstract class AbstractMenu implements Menu {
     }
     
     /**
-     * Get menu title
+     * @brief Abstract method to get the menu title.
+     * 
+     * @details Must be implemented by concrete menu classes.
+     * 
      * @return Menu title string
      */
     protected abstract String getMenuTitle();

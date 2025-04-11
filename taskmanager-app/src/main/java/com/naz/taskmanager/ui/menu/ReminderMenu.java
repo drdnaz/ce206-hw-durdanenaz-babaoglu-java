@@ -1,4 +1,3 @@
-// ReminderMenu.java (güncellendi)
 package com.naz.taskmanager.ui.menu;
 
 import com.naz.taskmanager.Taskmanager;
@@ -9,17 +8,31 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
- * Reminder system menu implementation
+ * Reminder system menu implementation.
+ * Provides options for managing task reminders and notifications.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class ReminderMenu implements Menu {
+    /** Scanner for user input */
     private final Scanner scanner;
+    
+    /** PrintStream for output */
     private final PrintStream out;
+    
+    /** Taskmanager instance */
     private final Taskmanager taskManager;
+    
+    /** Reminder service */
     private final ReminderService reminderService;
+    
+    /** Task service */
     private final TaskService taskService;
     
     /**
      * Constructor for ReminderMenu
+     * 
      * @param scanner Scanner for user input
      * @param out PrintStream for output
      * @param taskManager Taskmanager instance
@@ -45,6 +58,7 @@ public class ReminderMenu implements Menu {
     
     /**
      * Handle menu selection
+     * 
      * @param choice User's menu choice
      * @return true if should continue, false to exit
      */

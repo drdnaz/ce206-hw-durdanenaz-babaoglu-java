@@ -11,14 +11,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Service for task management
- * Implements Strategy Pattern for sorting tasks
+ * Service for task management.
+ * Implements Strategy Pattern for sorting tasks.
+ * Provides business logic for task operations.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class TaskService {
+    /** Task repository for data persistence */
     private final TaskRepository taskRepository;
     
     /**
      * Constructor for TaskService
+     * 
      * @param username Username for repository creation
      */
     public TaskService(String username) {
@@ -26,7 +32,8 @@ public class TaskService {
     }
     
     /**
-     * Create a new task
+     * Creates a new task
+     * 
      * @param name Task name
      * @param description Task description
      * @param category Task category
@@ -39,7 +46,8 @@ public class TaskService {
     }
     
     /**
-     * Get a task by ID
+     * Gets a task by ID
+     * 
      * @param id Task ID
      * @return Task with matching ID
      */
@@ -48,7 +56,8 @@ public class TaskService {
     }
     
     /**
-     * Get all tasks
+     * Gets all tasks
+     * 
      * @return List of all tasks
      */
     public List<TaskmanagerItem> getAllTasks() {
@@ -56,7 +65,8 @@ public class TaskService {
     }
     
     /**
-     * Update an existing task
+     * Updates an existing task
+     * 
      * @param task Task to update
      */
     public void updateTask(TaskmanagerItem task) {
@@ -64,7 +74,8 @@ public class TaskService {
     }
     
     /**
-     * Delete a task
+     * Deletes a task
+     * 
      * @param id ID of task to delete
      */
     public void deleteTask(String id) {
@@ -72,7 +83,8 @@ public class TaskService {
     }
     
     /**
-     * Mark a task as completed
+     * Marks a task as completed
+     * 
      * @param id Task ID
      */
     public void markTaskCompleted(String id) {
@@ -84,7 +96,8 @@ public class TaskService {
     }
     
     /**
-     * Get tasks by category
+     * Gets tasks by category
+     * 
      * @param category Category to filter by
      * @return List of tasks in the category
      */
@@ -95,7 +108,8 @@ public class TaskService {
     }
     
     /**
-     * Get tasks by priority
+     * Gets tasks by priority
+     * 
      * @param priority Priority to filter by
      * @return List of tasks with the priority
      */
@@ -106,7 +120,8 @@ public class TaskService {
     }
     
     /**
-     * Get overdue tasks
+     * Gets overdue tasks
+     * 
      * @return List of overdue tasks
      */
     public List<TaskmanagerItem> getOverdueTasks() {
@@ -116,7 +131,8 @@ public class TaskService {
     }
     
     /**
-     * Get tasks with deadlines in a date range
+     * Gets tasks with deadlines in a date range
+     * 
      * @param startDate Start of date range
      * @param endDate End of date range
      * @return List of tasks in the date range
@@ -124,15 +140,23 @@ public class TaskService {
     public List<TaskmanagerItem> getTasksInDateRange(Date startDate, Date endDate) {
         return taskRepository.getTasksInDateRange(startDate, endDate);
     }
+    
     /**
      * Strategy Pattern: Interface for task sorting strategies
      */
     public interface SortStrategy {
+        /**
+         * Sort tasks using a specific strategy
+         * 
+         * @param tasks List of tasks to sort
+         * @return Sorted list of tasks
+         */
         List<TaskmanagerItem> sort(List<TaskmanagerItem> tasks);
     }
     
     /**
      * Strategy Pattern: Sort tasks using the provided strategy
+     * 
      * @param strategy Sorting strategy to use
      * @return Sorted list of tasks
      */
@@ -142,6 +166,7 @@ public class TaskService {
     
     /**
      * Strategy Pattern: Sort tasks by deadline
+     * 
      * @return Sorted list of tasks
      */
     public List<TaskmanagerItem> sortTasksByDeadline() {
@@ -150,6 +175,7 @@ public class TaskService {
     
     /**
      * Strategy Pattern: Sort tasks by priority
+     * 
      * @return Sorted list of tasks
      */
     public List<TaskmanagerItem> sortTasksByPriority() {

@@ -6,22 +6,39 @@ import java.util.List;
 import java.util.Calendar;
 
 /**
- * Represents a single taskmanager item in the application
- * Implements inheritance, polymorphism, and multiple interfaces
+ * @file TaskmanagerItem.java
+ * @brief Core class for managing tasks
+ *
+ * This class defines the main structure for task objects within the Taskmanager application. 
+ * It contains fields such as category, priority, deadline, and reminders. It also implements
+ * Schedulable and Categorizable interfaces and inherits from BaseItem.
+ *
+ * @author
+ * Durdane Naz Babaoğlu
+ *
+ * @version 1.0
+ * @date 2025-04-11
  */
 public class TaskmanagerItem extends BaseItem implements Schedulable, Categorizable {
     private static final long serialVersionUID = 1L;
-    
+
+    /** @brief Task category */
     private Category category;
+
+    /** @brief Task deadline */
     private Date deadline;
+
+    /** @brief Task priority */
     private Priority priority = Priority.MEDIUM;
+
+    /** @brief List of reminders */
     private List<Reminder> reminders;
 
     /**
-     * Constructor for TaskmanagerItem
-     * @param name Name of the taskmanager item
-     * @param description Description of the taskmanager item
-     * @param category Category of the taskmanager item
+     * @brief Constructor for TaskmanagerItem
+     * @param name Task name
+     * @param description Task description
+     * @param category Task category
      */
     public TaskmanagerItem(String name, String description, Category category) {
         super(name, description);
@@ -29,18 +46,15 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
         this.reminders = new ArrayList<>();
     }
 
-    /**
-     * Get the category of the taskmanager item
-     * @return category
-     */
+    /** @return Returns the task category */
     @Override
     public Category getCategory() {
         return category;
     }
 
     /**
-     * Set the category of the taskmanager item
-     * @param category new category
+     * @brief Sets the category of the task
+     * @param category New category
      */
     @Override
     public void setCategory(Category category) {
@@ -50,35 +64,29 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
         this.category = category;
     }
 
-    /**
-     * Get the deadline of the taskmanager item
-     * @return deadline
-     */
+    /** @return Returns the deadline of the task */
     @Override
     public Date getDeadline() {
         return deadline != null ? (Date) deadline.clone() : null;
     }
 
     /**
-     * Set the deadline of the taskmanager item
-     * @param deadline new deadline
+     * @brief Sets the deadline of the task
+     * @param deadline New deadline
      */
     @Override
     public void setDeadline(Date deadline) {
         this.deadline = deadline != null ? (Date) deadline.clone() : null;
     }
 
-    /**
-     * Get the priority of the taskmanager item
-     * @return priority
-     */
+    /** @return Returns the priority of the task */
     public Priority getPriority() {
         return priority;
     }
 
     /**
-     * Set the priority of the taskmanager item
-     * @param priority new priority
+     * @brief Sets the priority of the task
+     * @param priority New priority
      */
     public void setPriority(Priority priority) {
         if (priority == null) {
@@ -86,10 +94,10 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
         }
         this.priority = priority;
     }
-    
+
     /**
-     * Add a reminder to this taskmanager item
-     * @param reminder The reminder to add
+     * @brief Adds a reminder to the task
+     * @param reminder Reminder object
      */
     public void addReminder(Reminder reminder) {
         if (reminder == null) {
@@ -97,18 +105,15 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
         }
         reminders.add(reminder);
     }
-    
-    /**
-     * Get all reminders for this taskmanager item
-     * @return List of reminders
-     */
+
+    /** @return Returns a copy of the reminders list */
     public List<Reminder> getReminders() {
-        return new ArrayList<>(reminders); // Return a copy for encapsulation
+        return new ArrayList<>(reminders);
     }
-    
+
     /**
-     * Remove a reminder from this taskmanager item
-     * @param reminder The reminder to remove
+     * @brief Removes a reminder from the task
+     * @param reminder Reminder to be removed
      * @return true if removed successfully
      */
     public boolean removeReminder(Reminder reminder) {
@@ -116,8 +121,8 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
     }
 
     /**
-     * Check if the taskmanager item is overdue
-     * @return true if overdue
+     * @brief Checks whether the task is overdue
+     * @return true if deadline has passed, false otherwise
      */
     @Override
     public boolean isOverdue() {
@@ -126,24 +131,23 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
         }
         return deadline.before(new Date());
     }
-    
+
     /**
-     * Get the number of days until the deadline
-     * @return days until deadline, or -1 if no deadline
+     * @brief Calculates days left until deadline
+     * @return Number of days remaining or -1 if no deadline is set
      */
     @Override
     public int getDaysUntilDeadline() {
         if (deadline == null) {
             return -1;
         }
-        
+
         long diffTime = deadline.getTime() - new Date().getTime();
         return (int) (diffTime / (24 * 60 * 60 * 1000));
     }
-    
+
     /**
-     * Display the taskmanager item details
-     * Implements polymorphism through method overriding
+     * @brief Displays task information to console
      */
     @Override
     public void display() {
@@ -151,7 +155,7 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
         System.out.println("Description: " + description);
         System.out.println("Category: " + category.getName());
         System.out.println("Priority: " + priority);
-        
+
         if (deadline != null) {
             System.out.println("Deadline: " + deadline);
             if (isOverdue()) {
@@ -160,24 +164,21 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
                 System.out.println("Days until deadline: " + getDaysUntilDeadline());
             }
         }
-        
+
         System.out.println("Status: " + (isCompleted ? "Completed" : "Pending"));
     }
-    
-    /**
-     * Get the item type
-     * @return The item type as a string
-     */
+
+    /** @return Returns the item type */
     @Override
     public String getItemType() {
         return "Task";
     }
+
     /**
-     * Set the ID of the taskmanager item
-     * @param id new ID
+     * @brief Sets the ID for the task
+     * @param id New ID
      */
     public void setId(String id) {
         this.id = id;
     }
-    
 }

@@ -5,10 +5,15 @@ import com.naz.taskmanager.repository.UserRepository;
 import java.util.List;
 
 /**
- * Service for user management
- * Implements Single Responsibility and Dependency Inversion principles
+ * Service for user management.
+ * Implements Single Responsibility and Dependency Inversion principles.
+ * Provides business logic for user operations like authentication and registration.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class UserService {
+    /** User repository for data persistence */
     private final UserRepository userRepository;
     
     /**
@@ -19,7 +24,8 @@ public class UserService {
     }
     
     /**
-     * Authenticate a user
+     * Authenticates a user
+     * 
      * @param username Username
      * @param password Password
      * @return User if authenticated, null otherwise
@@ -29,7 +35,8 @@ public class UserService {
     }
     
     /**
-     * Register a new user
+     * Registers a new user
+     * 
      * @param username Username
      * @param password Password
      * @param email Email
@@ -45,7 +52,7 @@ public class UserService {
             
             // Check if user already exists
             if (userRepository.userExists(username)) {
-                // Eğer test ortamındaysa ve kullanıcı zaten varsa, silelim
+                // If in test environment and user already exists, delete it
                 if (username.startsWith("test_user_")) {
                     userRepository.delete(username);
                 } else {
@@ -64,7 +71,8 @@ public class UserService {
     }
     
     /**
-     * Get all users
+     * Gets all users
+     * 
      * @return List of all users
      */
     public List<User> getAllUsers() {
@@ -72,7 +80,8 @@ public class UserService {
     }
     
     /**
-     * Get a user by username
+     * Gets a user by username
+     * 
      * @param username Username
      * @return User with matching username
      */
@@ -81,7 +90,8 @@ public class UserService {
     }
     
     /**
-     * Update a user
+     * Updates a user
+     * 
      * @param user User to update
      */
     public void updateUser(User user) {
@@ -89,7 +99,8 @@ public class UserService {
     }
     
     /**
-     * Delete a user
+     * Deletes a user
+     * 
      * @param username Username of user to delete
      */
     public void deleteUser(String username) {
@@ -97,7 +108,8 @@ public class UserService {
     }
     
     /**
-     * Check if username exists
+     * Checks if username exists
+     * 
      * @param username Username to check
      * @return true if username exists
      */
@@ -106,7 +118,8 @@ public class UserService {
     }
     
     /**
-     * Change user password
+     * Changes user password
+     * 
      * @param username Username
      * @param oldPassword Old password
      * @param newPassword New password

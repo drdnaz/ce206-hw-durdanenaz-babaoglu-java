@@ -1,16 +1,21 @@
-// ConsoleUtils.java
 package com.naz.taskmanager.util;
 
 import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
- * Utility class for console operations
+ * Utility class for console operations.
+ * Provides helper methods for console input/output operations and UI formatting.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class ConsoleUtils {
     
     /**
-     * Clear console screen
+     * Clears the console screen.
+     * Uses ANSI escape codes and line feeds for different console environments.
+     * 
      * @param out PrintStream for output
      */
     public static void clearScreen(PrintStream out) {
@@ -24,7 +29,8 @@ public class ConsoleUtils {
     }
     
     /**
-     * Wait for user to press Enter
+     * Waits for user to press Enter before continuing.
+     * 
      * @param in Scanner for input
      * @param out PrintStream for output
      */
@@ -34,7 +40,8 @@ public class ConsoleUtils {
     }
     
     /**
-     * Get integer input from user
+     * Gets integer input from user.
+     * 
      * @param in Scanner for input
      * @return User input as integer, -2 if error
      */
@@ -47,7 +54,8 @@ public class ConsoleUtils {
     }
     
     /**
-     * Display error message for invalid input
+     * Displays error message for invalid input.
+     * 
      * @param out PrintStream for output
      */
     public static void handleInputError(PrintStream out) {
@@ -55,7 +63,8 @@ public class ConsoleUtils {
     }
     
     /**
-     * Print menu header
+     * Prints a formatted menu header.
+     * 
      * @param out PrintStream for output
      * @param title Menu title
      */
@@ -66,7 +75,8 @@ public class ConsoleUtils {
     }
     
     /**
-     * Print menu footer
+     * Prints a menu footer.
+     * 
      * @param out PrintStream for output
      */
     public static void printMenuFooter(PrintStream out) {
@@ -74,7 +84,8 @@ public class ConsoleUtils {
     }
     
     /**
-     * Show notification to user
+     * Shows a notification to the user.
+     * 
      * @param out PrintStream for output
      * @param title Notification title
      * @param message Notification message
@@ -88,7 +99,8 @@ public class ConsoleUtils {
     }
     
     /**
-     * Print progress bar
+     * Prints a progress bar to visualize completion.
+     * 
      * @param out PrintStream for output
      * @param current Current progress
      * @param total Total to reach
@@ -110,7 +122,8 @@ public class ConsoleUtils {
     }
     
     /**
-     * Format text with color (ANSI escape codes)
+     * Formats text with color using ANSI escape codes.
+     * 
      * @param text Text to format
      * @param colorCode ANSI color code
      * @return Formatted text
@@ -120,7 +133,8 @@ public class ConsoleUtils {
     }
     
     /**
-     * Get string input with confirmation
+     * Gets string input with confirmation to ensure user entered correct data.
+     * 
      * @param in Scanner for input
      * @param out PrintStream for output
      * @param prompt Prompt message

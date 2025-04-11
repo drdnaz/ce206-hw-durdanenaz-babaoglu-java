@@ -9,17 +9,29 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.naz.taskmanager.util.DateUtils; // Bu satırı ekleyin
+import com.naz.taskmanager.util.DateUtils;
+
 /**
- * Repository for TaskmanagerItem entities using SQLite
+ * @brief Repository for TaskmanagerItem entities using SQLite database.
+ * 
+ * @details Implements the Repository interface for task data persistence.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class TaskRepository implements Repository<TaskmanagerItem> {
+    /** @brief Database connection */
     private final Connection connection;
+    
+    /** @brief Username for user-specific tasks */
     private final String username;
+    
+    /** @brief Date format for database operations */
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     /**
-     * Constructor for TaskRepository
+     * @brief Constructor for TaskRepository
+     * 
      * @param username Username for user-specific tasks
      */
     public TaskRepository(String username) {
@@ -28,9 +40,11 @@ public class TaskRepository implements Repository<TaskmanagerItem> {
     }
     
     /**
-     * Get or create category ID for a category
+     * @brief Gets or creates a category ID for a category in the database
+     * 
      * @param category Category object
      * @return ID of the category in the database
+     * @throws SQLException if a database error occurs
      */
     private int getOrCreateCategoryId(Category category) throws SQLException {
         if (category == null) {
@@ -66,9 +80,11 @@ public class TaskRepository implements Repository<TaskmanagerItem> {
     }
     
     /**
-     * Get category by ID
+     * @brief Gets a category by its ID from the database
+     * 
      * @param categoryId Category ID
      * @return Category object
+     * @throws SQLException if a database error occurs
      */
     private Category getCategoryById(int categoryId) throws SQLException {
         if (categoryId < 0) {
@@ -90,7 +106,8 @@ public class TaskRepository implements Repository<TaskmanagerItem> {
     }
     
     /**
-     * Save a new task
+     * @brief Saves a new task to the database
+     * 
      * @param task Task to save
      */
     @Override
@@ -132,7 +149,8 @@ public class TaskRepository implements Repository<TaskmanagerItem> {
     }
     
     /**
-     * Get a task by its ID
+     * @brief Gets a task by its ID from the database
+     * 
      * @param id Task ID
      * @return Task with the matching ID, or null if not found
      */
@@ -157,12 +175,12 @@ public class TaskRepository implements Repository<TaskmanagerItem> {
         return null;
     }
     
-    
     /**
-     * Get tasks in date range
+     * @brief Gets tasks with deadlines in a specified date range
+     * 
      * @param startDate Start date
      * @param endDate End date
-     * @return List of tasks in date range
+     * @return List of tasks in the date range
      */
     public List<TaskmanagerItem> getTasksInDateRange(Date startDate, Date endDate) {
         List<TaskmanagerItem> tasksInRange = new ArrayList<>();
@@ -187,9 +205,12 @@ public class TaskRepository implements Repository<TaskmanagerItem> {
     }
     
     /**
-     * Create TaskmanagerItem object from ResultSet
+     * @brief Creates a TaskmanagerItem object from a database ResultSet
+     * 
      * @param rs ResultSet containing task data
      * @return TaskmanagerItem object
+     * @throws SQLException if a database error occurs
+     * @throws ParseException if date parsing fails
      */
     private TaskmanagerItem createTaskFromResultSet(ResultSet rs) throws SQLException, ParseException {
         Category category = getCategoryById(rs.getInt("category_id"));
@@ -222,7 +243,8 @@ public class TaskRepository implements Repository<TaskmanagerItem> {
     }
     
     /**
-     * Get all tasks
+     * @brief Gets all tasks for the current user from the database
+     * 
      * @return List of all tasks
      */
     @Override
@@ -247,7 +269,8 @@ public class TaskRepository implements Repository<TaskmanagerItem> {
     }
     
     /**
-     * Update an existing task
+     * @brief Updates an existing task in the database
+     * 
      * @param task Task to update
      */
     @Override
@@ -285,7 +308,8 @@ public class TaskRepository implements Repository<TaskmanagerItem> {
     }
     
     /**
-     * Delete a task by ID
+     * @brief Deletes a task by ID from the database
+     * 
      * @param id ID of the task to delete
      */
     @Override

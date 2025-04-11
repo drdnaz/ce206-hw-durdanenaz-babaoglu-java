@@ -1,0 +1,236 @@
+[
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\config\\AppConfig.java",
+        "covered": 14,
+        "total": 22,
+        "coverage": 63.64
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\model\\BaseItem.java",
+        "covered": 19,
+        "total": 20,
+        "coverage": 95.0
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\model\\Categorizable.java",
+        "covered": 2,
+        "total": 3,
+        "coverage": 66.67
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\model\\Category.java",
+        "covered": 6,
+        "total": 7,
+        "coverage": 85.71
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\ui\\ConsoleUI.java",
+        "covered": 19,
+        "total": 20,
+        "coverage": 95.0
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\util\\ConsoleUtils.java",
+        "covered": 11,
+        "total": 12,
+        "coverage": 91.67
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\repository\\DatabaseConnection.java",
+        "covered": 13,
+        "total": 14,
+        "coverage": 92.86
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\DatabaseTest.java",
+        "covered": 0,
+        "total": 3,
+        "coverage": 0.0
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\util\\DateUtils.java",
+        "covered": 15,
+        "total": 16,
+        "coverage": 93.75
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\ui\\menu\\DeadLineMenu.java",
+        "covered": 9,
+        "total": 10,
+        "coverage": 90.0
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\service\\DeadlineService.java",
+        "covered": 10,
+        "total": 11,
+        "coverage": 90.91
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\service\\TaskService.java",
+        "covered": 19,
+        "total": 22,
+        "coverage": 86.36
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\ui\\InputHandler.java",
+        "covered": 15,
+        "total": 16,
+        "coverage": 93.75
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\Main.java",
+        "covered": 2,
+        "total": 3,
+        "coverage": 66.67
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\ui\\menu\\MainMenu.java",
+        "covered": 9,
+        "total": 10,
+        "coverage": 90.0
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\ui\\menu\\Menu.java",
+        "covered": 2,
+        "total": 3,
+        "coverage": 66.67
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\ui\\MenuHandler.java",
+        "covered": 14,
+        "total": 15,
+        "coverage": 93.33
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\model\\NotificationSettings.java",
+        "covered": 11,
+        "total": 12,
+        "coverage": 91.67
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\model\\Priority.java",
+        "covered": 4,
+        "total": 5,
+        "coverage": 80.0
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\ui\\menu\\PriorityMenu.java",
+        "covered": 9,
+        "total": 10,
+        "coverage": 90.0
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\model\\Project.java",
+        "covered": 18,
+        "total": 19,
+        "coverage": 94.74
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\model\\Reminder.java",
+        "covered": 21,
+        "total": 22,
+        "coverage": 95.45
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\ui\\menu\\ReminderMenu.java",
+        "covered": 10,
+        "total": 11,
+        "coverage": 90.91
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\service\\ReminderService.java",
+        "covered": 16,
+        "total": 17,
+        "coverage": 94.12
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\repository\\ReminderRepository.java",
+        "covered": 12,
+        "total": 13,
+        "coverage": 92.31
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\repository\\Repository.java",
+        "covered": 5,
+        "total": 6,
+        "coverage": 83.33
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\ui\\Repository.java",
+        "covered": 5,
+        "total": 6,
+        "coverage": 83.33
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\model\\Schedulable.java",
+        "covered": 4,
+        "total": 5,
+        "coverage": 80.0
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\repository\\SettingsRepository.java",
+        "covered": 6,
+        "total": 7,
+        "coverage": 85.71
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\Taskmanager.java",
+        "covered": 51,
+        "total": 52,
+        "coverage": 98.08
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\TaskmanagerApp.java",
+        "covered": 2,
+        "total": 3,
+        "coverage": 66.67
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\model\\TaskmanagerItem.java",
+        "covered": 20,
+        "total": 22,
+        "coverage": 90.91
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\ui\\menu\\TaskMenu.java",
+        "covered": 9,
+        "total": 10,
+        "coverage": 90.0
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\repository\\TaskRepository.java",
+        "covered": 14,
+        "total": 15,
+        "coverage": 93.33
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\User.java",
+        "covered": 15,
+        "total": 16,
+        "coverage": 93.75
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\repository\\UserRepository.java",
+        "covered": 10,
+        "total": 11,
+        "coverage": 90.91
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\com\\naz\\taskmanager\\service\\UserService.java",
+        "covered": 11,
+        "total": 12,
+        "coverage": 91.67
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\[generated]",
+        "covered": 0,
+        "total": 1,
+        "coverage": 0.0
+    },
+    {
+        "file": "C:\\Users\\kardelenbicen\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\java\\taskmanager-app\\src\\main\\java\\mainpage.dox",
+        "covered": 0,
+        "total": 1,
+        "coverage": 0.0
+    }
+]

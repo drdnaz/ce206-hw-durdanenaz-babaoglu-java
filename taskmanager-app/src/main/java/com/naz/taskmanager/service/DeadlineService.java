@@ -1,17 +1,22 @@
-// DeadlineService.java
 package com.naz.taskmanager.service;
 
 import com.naz.taskmanager.model.TaskmanagerItem;
 import java.util.*;
 
 /**
- * Service for deadline management
+ * Service for deadline management.
+ * Provides specialized deadline-related operations.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class DeadlineService {
+    /** Task service for task operations */
     private final TaskService taskService;
     
     /**
      * Constructor for DeadlineService
+     * 
      * @param taskService Task service for task operations
      */
     public DeadlineService(TaskService taskService) {
@@ -19,7 +24,8 @@ public class DeadlineService {
     }
     
     /**
-     * Get upcoming deadlines within a certain number of days
+     * Gets upcoming deadlines within a certain number of days
+     * 
      * @param days Number of days to look ahead
      * @return List of tasks with deadlines within specified days
      */
@@ -47,7 +53,8 @@ public class DeadlineService {
     }
     
     /**
-     * Get overdue tasks
+     * Gets overdue tasks
+     * 
      * @return List of overdue tasks
      */
     public List<TaskmanagerItem> getOverdueTasks() {
@@ -55,7 +62,8 @@ public class DeadlineService {
     }
     
     /**
-     * Get tasks due today
+     * Gets tasks due today
+     * 
      * @return List of tasks due today
      */
     public List<TaskmanagerItem> getTasksDueToday() {
@@ -86,7 +94,8 @@ public class DeadlineService {
     }
     
     /**
-     * Extend deadline for a task
+     * Extends the deadline for a task
+     * 
      * @param taskId Task ID
      * @param days Days to extend
      * @return true if successful
@@ -112,7 +121,8 @@ public class DeadlineService {
     }
     
     /**
-     * Get tasks in date range
+     * Gets tasks in a date range
+     * 
      * @param startDate Start date
      * @param endDate End date
      * @return List of tasks in date range
@@ -122,7 +132,8 @@ public class DeadlineService {
     }
     
     /**
-     * Sort tasks by deadline
+     * Sorts tasks by deadline
+     * 
      * @return Sorted list of tasks
      */
     public List<TaskmanagerItem> sortTasksByDeadline() {
@@ -130,7 +141,8 @@ public class DeadlineService {
     }
     
     /**
-     * Check task deadline status
+     * Checks task deadline status
+     * 
      * @param taskId Task ID
      * @return Status string ("overdue", "upcoming", "today", "no deadline")
      */

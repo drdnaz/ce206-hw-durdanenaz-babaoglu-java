@@ -8,15 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Repository for Reminder entities using SQLite
+ * Repository for Reminder entities using SQLite database.
+ * Implements the Repository interface for reminder data persistence.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class ReminderRepository implements Repository<Reminder> {
+    /** Database connection */
     private final Connection connection;
+    
+    /** Username for user-specific reminders */
     private final String username;
+    
+    /** Date format for database operations */
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     /**
      * Constructor for ReminderRepository
+     * 
      * @param username Username for user-specific reminders
      */
     public ReminderRepository(String username) {
@@ -25,7 +35,8 @@ public class ReminderRepository implements Repository<Reminder> {
     }
     
     /**
-     * Save a new reminder
+     * Saves a new reminder to the database
+     * 
      * @param reminder Reminder to save
      */
     @Override
@@ -60,7 +71,8 @@ public class ReminderRepository implements Repository<Reminder> {
     }
     
     /**
-     * Get a reminder by its ID
+     * Gets a reminder by its ID from the database
+     * 
      * @param id Reminder ID
      * @return Reminder with the matching ID, or null if not found
      */
@@ -87,9 +99,12 @@ public class ReminderRepository implements Repository<Reminder> {
     }
     
     /**
-     * Create Reminder object from ResultSet
+     * Creates a Reminder object from a database ResultSet
+     * 
      * @param rs ResultSet containing reminder data
      * @return Reminder object
+     * @throws SQLException if a database error occurs
+     * @throws ParseException if date parsing fails
      */
     private Reminder createReminderFromResultSet(ResultSet rs) throws SQLException, ParseException {
         Reminder reminder = new Reminder();
@@ -109,7 +124,8 @@ public class ReminderRepository implements Repository<Reminder> {
     }
     
     /**
-     * Get all reminders
+     * Gets all reminders for the current user from the database
+     * 
      * @return List of all reminders
      */
     @Override
@@ -135,7 +151,8 @@ public class ReminderRepository implements Repository<Reminder> {
     }
     
     /**
-     * Update an existing reminder
+     * Updates an existing reminder in the database
+     * 
      * @param reminder Reminder to update
      */
     @Override
@@ -167,7 +184,8 @@ public class ReminderRepository implements Repository<Reminder> {
     }
     
     /**
-     * Delete a reminder by ID
+     * Deletes a reminder by ID from the database
+     * 
      * @param id ID of the reminder to delete
      */
     @Override
@@ -190,7 +208,8 @@ public class ReminderRepository implements Repository<Reminder> {
     }
     
     /**
-     * Get reminders for a specific task
+     * Gets reminders for a specific task
+     * 
      * @param taskId ID of the task
      * @return List of reminders for the task
      */

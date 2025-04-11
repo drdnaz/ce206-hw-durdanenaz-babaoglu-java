@@ -1,0 +1,88 @@
+/**
+ * @mainpage Task Manager Application
+ * 
+ * @section intro_sec Introduction
+ * Task Manager is a Java-based application that helps users organize, 
+ * track, and manage their tasks effectively. This application has been 
+ * developed as part of the CE206 course.
+ * 
+ * @section features_sec Features
+ * - Create and edit tasks
+ * - Categorize tasks
+ * - Set priority levels
+ * - Configure due dates
+ * - Set reminders
+ * - Track completion status
+ * - User account management
+ * 
+ * @section architecture_sec Architecture
+ * The application consists of the following main components:
+ * - **Model**: Data structures and business logic
+ * - **View**: User interface components
+ * - **Controller**: Application control and coordination
+ * - **Persistence**: Data persistence and management
+ * 
+ * @section install_sec Installation
+ * 
+ * @subsection step1 1. Prerequisites
+ * - Java JDK 11 or higher
+ * - Maven 3.6 or higher
+ * 
+ * @subsection step2 2. Clone the Project
+ * ```
+ * git clone [https://github.com/drdnaz/ce206-hw-durdanenaz-babaoglu-java.git](https://github.com/drdnaz/ce206-hw-durdanenaz-babaoglu-java.git)
+ * cd ce206-hw-durdanenaz-babaoglu-java
+ * ```
+ * 
+ * @subsection step3 3. Build and Run
+ * ```
+ * mvn clean install
+ * java -jar taskmanager-app/target/taskmanager-app-1.0.jar
+ * ```
+ * 
+ * @section usage_sec Usage Examples
+ * 
+ * @subsection usage1 Creating a Task
+ * ```java
+ * Task task = new Task("Assignment Submission");
+ * task.setDueDate(LocalDate.now().plusDays(7));
+ * task.setPriority(Priority.HIGH);
+ * taskService.saveTask(task);
+ * ```
+ * 
+ * @subsection usage2 Listing Tasks
+ * ```java
+ * List<Task> tasks = taskService.getTasksByUser(currentUser);
+ * tasks.forEach(System.out::println);
+ * ```
+ * 
+ * @section class_desc Key Classes
+ * - TaskService: Service class managing task operations
+ * - UserService: Service class managing user operations
+ * - Task: Class representing the task model
+ * - User: Class representing the user model
+ * 
+ * @section dependency_sec Dependencies
+ * - Spring Framework
+ * - Hibernate/JPA
+ * - H2 Database
+ * - JavaFX (for UI)
+ * - Log4j (for logging)
+ * 
+ * @section test_sec Testing
+ * Unit tests are written using JUnit and Mockito.
+ * ```
+ * mvn test
+ * ```
+ * 
+ * @section license_sec License
+ * This project has been developed for academic purposes as part of the CE206 course.
+ * 
+ * @section contact_sec Contact
+ * - Durdane Naz Babaoğlu
+ * - Email: [durdanebabaoglu@example.com](mailto:durdanebabaoglu@example.com)
+ * - GitHub: [github.com/drdnaz](https://github.com/drdnaz)
+ * 
+ * @section changelog_sec Changelog
+ * - v1.0 (2025-04-11): Initial release
+ */

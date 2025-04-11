@@ -1,4 +1,3 @@
-// PriorityMenu.java (güncellendi)
 package com.naz.taskmanager.ui.menu;
 
 import com.naz.taskmanager.Taskmanager;
@@ -8,12 +7,23 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
- * Task prioritization menu implementation
+ * Task prioritization menu implementation.
+ * Provides options for setting task priorities and viewing tasks by priority.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class PriorityMenu implements Menu {
+    /** Scanner for user input */
 	private final Scanner scanner;
+	
+	/** PrintStream for output */
 	private final PrintStream out;
+	
+	/** Taskmanager instance */
 	private final Taskmanager taskManager;
+	
+	/** Task service */
 	private final TaskService taskService;
 
 	/**

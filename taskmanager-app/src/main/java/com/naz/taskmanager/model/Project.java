@@ -5,18 +5,29 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Represents a project that can contain multiple taskmanager items
- * Demonstrates inheritance and composition
+ * Represents a project that can contain multiple taskmanager items.
+ * This class demonstrates inheritance (extends BaseItem) and composition
+ * (contains TaskmanagerItem objects).
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class Project extends BaseItem {
+    /** Serial version UID for serialization */
     private static final long serialVersionUID = 1L;
     
+    /** List of tasks in this project */
     private List<TaskmanagerItem> tasks;
+    
+    /** Start date of the project */
     private Date startDate;
+    
+    /** End date of the project */
     private Date endDate;
     
     /**
-     * Constructor for Project
+     * Constructor for creating a new Project
+     * 
      * @param name Name of the project
      * @param description Description of the project
      */
@@ -26,49 +37,56 @@ public class Project extends BaseItem {
     }
     
     /**
-     * Get the start date of the project
-     * @return start date
+     * Gets the start date of the project
+     * 
+     * @return Start date as a defensive copy
      */
     public Date getStartDate() {
         return startDate != null ? (Date) startDate.clone() : null;
     }
     
     /**
-     * Set the start date of the project
-     * @param startDate new start date
+     * Sets the start date of the project
+     * 
+     * @param startDate New start date
      */
     public void setStartDate(Date startDate) {
         this.startDate = startDate != null ? (Date) startDate.clone() : null;
     }
     
     /**
-     * Get the end date of the project
-     * @return end date
+     * Gets the end date of the project
+     * 
+     * @return End date as a defensive copy
      */
     public Date getEndDate() {
         return endDate != null ? (Date) endDate.clone() : null;
     }
     
     /**
-     * Set the end date of the project
-     * @param endDate new end date
+     * Sets the end date of the project
+     * 
+     * @param endDate New end date
      */
     public void setEndDate(Date endDate) {
         this.endDate = endDate != null ? (Date) endDate.clone() : null;
     }
     
     /**
-     * Get all tasks in this project
-     * @return List of tasks
+     * Gets all tasks in this project
+     * 
+     * @return List of tasks as a defensive copy
      */
     public List<TaskmanagerItem> getTasks() {
         return new ArrayList<>(tasks); // Return a copy for encapsulation
     }
     
     /**
-     * Method overloading for polymorphism
-     * Add a task to the project
+     * Adds a task to the project.
+     * Demonstrates method overloading for polymorphism.
+     * 
      * @param task The task to add
+     * @throws IllegalArgumentException if task is null
      */
     public void addTask(TaskmanagerItem task) {
         if (task == null) {
@@ -78,8 +96,9 @@ public class Project extends BaseItem {
     }
     
     /**
-     * Method overloading for polymorphism
-     * Create and add a new task to the project
+     * Creates and adds a new task to the project.
+     * Demonstrates method overloading for polymorphism.
+     * 
      * @param name Name of the task
      * @param description Description of the task
      * @param category Category of the task
@@ -92,8 +111,9 @@ public class Project extends BaseItem {
     }
     
     /**
-     * Method overloading for polymorphism
-     * Create and add a new task with deadline and priority
+     * Creates and adds a new task with deadline and priority.
+     * Demonstrates method overloading for polymorphism.
+     * 
      * @param name Name of the task
      * @param description Description of the task
      * @param category Category of the task
@@ -111,16 +131,18 @@ public class Project extends BaseItem {
     }
     
     /**
-     * Remove a task from the project
+     * Removes a task from the project
+     * 
      * @param task The task to remove
-     * @return true if removed successfully
+     * @return true if removed successfully, false otherwise
      */
     public boolean removeTask(TaskmanagerItem task) {
         return tasks.remove(task);
     }
     
     /**
-     * Calculate the completion percentage of the project
+     * Calculates the completion percentage of the project
+     * 
      * @return Completion percentage (0-100)
      */
     public int getCompletionPercentage() {
@@ -139,8 +161,8 @@ public class Project extends BaseItem {
     }
     
     /**
-     * Display project details
-     * Implements polymorphism through method overriding
+     * Displays project details.
+     * Implements polymorphism through method overriding.
      */
     @Override
     public void display() {
@@ -162,8 +184,9 @@ public class Project extends BaseItem {
     }
     
     /**
-     * Get the item type
-     * @return The item type as a string
+     * Gets the item type
+     * 
+     * @return The string "Project"
      */
     @Override
     public String getItemType() {

@@ -3,7 +3,11 @@ package com.naz.taskmanager.model;
 import java.io.Serializable;
 
 /**
- * Represents a category for Taskmanager items
+ * Represents a category for Taskmanager items.
+ * Categories help organize tasks by grouping them into logical collections.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class Category {
     /** Unique identifier for serialization */
@@ -13,7 +17,8 @@ public class Category {
     private String name;
 
     /**
-     * Constructor for Category
+     * Constructor for creating a new Category
+     * 
      * @param name Name of the category
      */
     public Category(String name) {
@@ -21,16 +26,18 @@ public class Category {
     }
 
     /**
-     * Get the name of the category
-     * @return category name
+     * Gets the name of the category
+     * 
+     * @return Category name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Set the name of the category
-     * @param name new category name
+     * Sets the name of the category
+     * 
+     * @param name New category name
      */
     public void setName(String name) {
         this.name = name;

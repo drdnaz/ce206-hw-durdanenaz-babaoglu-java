@@ -1,4 +1,3 @@
-// InputHandler.java
 package com.naz.taskmanager.ui;
 
 import java.text.ParseException;
@@ -7,14 +6,22 @@ import java.util.Date;
 import java.util.Scanner;
 
 /**
- * Class for handling user input
+ * Class for handling user input.
+ * Provides methods for input validation and conversion.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class InputHandler {
+    /** Scanner for user input */
     private final Scanner scanner;
+    
+    /** Date format for date input/output */
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     
     /**
      * Constructor for InputHandler
+     * 
      * @param scanner Scanner for user input
      */
     public InputHandler(Scanner scanner) {
@@ -22,7 +29,8 @@ public class InputHandler {
     }
     
     /**
-     * Get string input from user
+     * Gets string input from user
+     * 
      * @param prompt Prompt message
      * @return User input as string
      */
@@ -32,7 +40,8 @@ public class InputHandler {
     }
     
     /**
-     * Get string input with validation
+     * Gets string input with validation
+     * 
      * @param prompt Prompt message
      * @param errorMessage Error message
      * @param validator Validation function
@@ -50,7 +59,8 @@ public class InputHandler {
     }
     
     /**
-     * Get non-empty string input
+     * Gets non-empty string input
+     * 
      * @param prompt Prompt message
      * @return Non-empty user input
      */
@@ -63,7 +73,8 @@ public class InputHandler {
     }
     
     /**
-     * Get integer input from user
+     * Gets integer input from user
+     * 
      * @param prompt Prompt message
      * @return User input as integer
      */
@@ -79,7 +90,8 @@ public class InputHandler {
     }
     
     /**
-     * Get integer input with range validation
+     * Gets integer input with range validation
+     * 
      * @param prompt Prompt message
      * @param min Minimum value
      * @param max Maximum value
@@ -96,7 +108,8 @@ public class InputHandler {
     }
     
     /**
-     * Get date input from user
+     * Gets date input from user
+     * 
      * @param prompt Prompt message
      * @return User input as date, null if error
      */
@@ -117,7 +130,8 @@ public class InputHandler {
     }
     
     /**
-     * Get yes/no input from user
+     * Gets yes/no input from user
+     * 
      * @param prompt Prompt message
      * @return true for yes, false for no
      */
@@ -135,9 +149,10 @@ public class InputHandler {
     }
     
     /**
-     * Get password input (masked)
+     * Gets password input (masked)
      * Note: This is a simple implementation that doesn't actually mask input
      * Console masking requires different techniques based on platform
+     * 
      * @param prompt Prompt message
      * @return Password as string
      */
@@ -148,7 +163,8 @@ public class InputHandler {
     }
     
     /**
-     * Get email input with basic validation
+     * Gets email input with basic validation
+     * 
      * @param prompt Prompt message
      * @return Valid email address
      */
@@ -161,7 +177,8 @@ public class InputHandler {
     }
     
     /**
-     * Get double input from user
+     * Gets double input from user
+     * 
      * @param prompt Prompt message
      * @return User input as double
      */
@@ -177,7 +194,8 @@ public class InputHandler {
     }
     
     /**
-     * Get input from a list of options
+     * Gets input from a list of options
+     * 
      * @param prompt Prompt message
      * @param options Array of options
      * @return Selected option

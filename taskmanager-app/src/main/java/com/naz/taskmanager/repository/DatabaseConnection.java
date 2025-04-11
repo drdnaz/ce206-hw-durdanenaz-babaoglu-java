@@ -8,17 +8,32 @@ import java.io.PrintStream;
 import java.io.File;
 
 /**
- * Singleton class for database connection management
+ * Singleton class for database connection management.
+ * Handles SQLite database connectivity, initialization, and schema creation.
+ * Implements the Singleton design pattern to ensure a single connection instance.
+ * 
+ * @author TaskManager Team
+ * @version 1.0
  */
 public class DatabaseConnection {
+    /** Singleton instance */
     private static DatabaseConnection instance;
+    
+    /** Database connection */
     private Connection connection = null;
+    
+    /** Database URL for SQLite */
     private static final String DB_URL = "jdbc:sqlite:data/taskmanager.db";
+    
+    /** PrintStream for output messages */
     private final PrintStream out;
+    
+    /** Flag indicating if the database has been initialized */
     private boolean initialized = false;
 
     /**
-     * Private constructor for Singleton pattern
+     * Private constructor for Singleton pattern.
+     * 
      * @param out PrintStream for output messages
      */
     private DatabaseConnection(PrintStream out) {
@@ -26,7 +41,9 @@ public class DatabaseConnection {
     }
     
     /**
-     * Get singleton instance
+     * Gets the singleton instance.
+     * Creates a new instance if one doesn't exist yet.
+     * 
      * @param out PrintStream for output messages
      * @return Singleton instance
      */
@@ -38,7 +55,9 @@ public class DatabaseConnection {
     }
 
     /**
-     * Get database connection - opens connection if closed
+     * Gets the active database connection.
+     * Opens a new connection if needed.
+     * 
      * @return Active database connection
      */
     public synchronized Connection getConnection() {
@@ -54,11 +73,12 @@ public class DatabaseConnection {
     }
     
     /**
-     * Open a new database connection
+     * Opens a new database connection.
+     * Creates the data directory if it doesn't exist.
      */
     private void openConnection() {
-    	File dbFile = new File("data/taskmanager.db");
-    	out.println("Veritabanı dosyası tam yolu: " + dbFile.getAbsolutePath());
+        File dbFile = new File("data/taskmanager.db");
+        out.println("Database file full path: " + dbFile.getAbsolutePath());
         try {
             // Load SQLite driver
             Class.forName("org.sqlite.JDBC");
@@ -92,7 +112,7 @@ public class DatabaseConnection {
     }
     
     /**
-     * Close database connection
+     * Closes the database connection.
      */
     public synchronized void closeConnection() {
         if (connection != null) {
@@ -109,8 +129,8 @@ public class DatabaseConnection {
     }
     
     /**
-     * Release connection back to the pool (doesn't actually close it in this implementation)
-     * In a real connection pool, this would return the connection to the pool
+     * Releases the connection back to the pool.
+     * In a real connection pool, this would return the connection to the pool.
      */
     public synchronized void releaseConnection() {
         // In a real connection pool, you would return the connection to the pool here
@@ -118,7 +138,8 @@ public class DatabaseConnection {
     }
 
     /**
-     * Initialize database tables
+     * Initializes the database tables.
+     * Creates all required tables if they don't exist yet.
      */
     public void initializeDatabase() {
         try (Connection conn = getConnection();
