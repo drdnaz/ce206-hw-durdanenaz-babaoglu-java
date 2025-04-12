@@ -237,6 +237,43 @@
 					<tempWebappDirectory>${basedir}/target/site</tempWebappDirectory>
 				</configuration>
 			</plugin>
+			
+			<!-- Ant Task to copy coverxygen files -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>post-site</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<echo message="Coverxygen dosyalarını kopyalama işlemi başlatılıyor..." />
+								<mkdir dir="${basedir}/target/site/coverxygen"/>
+								
+								<!-- Dosyaları doğrudan kopyala, ancak hata vermeden atla -->
+								<echo message="Coverxygen klasörünü kontrol ediyorum..." />
+								<available file="${basedir}/../coverxygen" property="coverxygen.exists" type="dir" />
+								<echo message="Kopyalama başlıyor..." />
+								
+								<copy todir="${basedir}/target/site/coverxygen" failonerror="false" quiet="true">
+									<fileset dir="${basedir}/../coverxygen" erroronmissingdir="false"/>
+								</copy>
+								
+								<echo message="Diğer dosyaları kopyalıyorum..." />
+								<copy file="${basedir}/../coverage_report.py" todir="${basedir}/target/site/coverxygen" failonerror="false" quiet="true"/>
+								<copy file="${basedir}/../coverage.lcov" todir="${basedir}/target/site/coverxygen" failonerror="false" quiet="true"/>
+								<copy file="${basedir}/../coverage_report_lcov.py" todir="${basedir}/target/site/coverxygen" failonerror="false" quiet="true"/>
+								<copy file="${basedir}/../coverxygen.json" todir="${basedir}/target/site/coverxygen" failonerror="false" quiet="true"/>
+								<echo message="Coverxygen kopyalama işlemi tamamlandı." />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
 			<!-- Maven Shade Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

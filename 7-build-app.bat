@@ -101,6 +101,49 @@ call tar -czvf release\doc-coverage-report.tar.gz -C taskmanager-app\target\site
 echo Package Product Site
 call tar -czvf release\application-site.tar.gz -C taskmanager-app\target\site .
 
+echo Kaynak Coverxygen klasörünün varlığını kontrol ediyorum...
+if not exist "coverxygen\" (
+  echo UYARI: coverxygen klasörü bulunamadı, kopyalama işlemi atlanıyor
+  goto SkipCopy
+)
+
+echo Hedef klasörü oluşturuyorum...
+if not exist "taskmanager-app\target\site\coverxygen\" (
+  mkdir "taskmanager-app\target\site\coverxygen" 2>nul
+)
+
+echo Coverxygen dosyalarını kopyalıyorum...
+xcopy /E /I /Y "coverxygen\*" "taskmanager-app\target\site\coverxygen\" 
+if errorlevel 1 (
+  echo HATA: Coverxygen klasörü kopyalama sırasında sorun oluştu!
+) else (
+  echo Coverxygen klasörü başarıyla kopyalandı.
+)
+
+echo Diğer coverxygen dosyalarını kopyalıyorum...
+set "DOSYA_SAYACI=0"
+if exist "coverage_report.py" (
+  copy "coverage_report.py" "taskmanager-app\target\site\coverxygen\"
+  set /a "DOSYA_SAYACI+=1"
+)
+if exist "coverage.lcov" (
+  copy "coverage.lcov" "taskmanager-app\target\site\coverxygen\"
+  set /a "DOSYA_SAYACI+=1"
+)
+if exist "coverage_report_lcov.py" (
+  copy "coverage_report_lcov.py" "taskmanager-app\target\site\coverxygen\"
+  set /a "DOSYA_SAYACI+=1"
+)
+if exist "coverxygen.json" (
+  copy "coverxygen.json" "taskmanager-app\target\site\coverxygen\"
+  set /a "DOSYA_SAYACI+=1"
+)
+echo Toplam %DOSYA_SAYACI% coverxygen dosyası kopyalandı.
+
+echo Kopyalama sonrası durumu kontrol ediyorum...
+dir "taskmanager-app\target\site\coverxygen\" 
+
+:SkipCopy
 echo ....................
 echo Operation Completed!
 echo ....................
