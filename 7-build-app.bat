@@ -10,7 +10,6 @@ echo Change the current working directory to the script directory
 @cd /d "%~dp0"
 
 echo Delete the "docs" folder and its contents
-rd /S /Q "taskmanager-app\target\site\coverxygen"
 rd /S /Q "taskmanager-app\target\site\coveragereport"
 rd /S /Q "taskmanager-app\target\site\doxygen"
 

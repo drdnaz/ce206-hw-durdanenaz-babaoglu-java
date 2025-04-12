@@ -3,6 +3,7 @@ package com.naz.taskmanager.service;
 import com.naz.taskmanager.model.Reminder;
 import com.naz.taskmanager.model.TaskmanagerItem;
 import com.naz.taskmanager.repository.ReminderRepository;
+import com.naz.taskmanager.repository.TaskRepository;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,19 +31,27 @@ public class ReminderService {
         void onReminderDue(Reminder reminder, String taskId);
     }
     
+    /** Kullanıcı adı */
+    private final String username;
+    
     /** Reminder repository for data persistence */
     private final ReminderRepository reminderRepository;
+    
+    /** Task repository for data persistence */
+    private final TaskRepository taskRepository;
     
     /** List of observers for notification */
     private final List<ReminderObserver> observers;
     
     /**
-     * Constructor for ReminderService
+     * ReminderService sınıfı için yapıcı metot
      * 
-     * @param username Username for repository creation
+     * @param username Kullanıcı adı
      */
     public ReminderService(String username) {
+        this.username = username;
         this.reminderRepository = new ReminderRepository(username);
+        this.taskRepository = new TaskRepository(username);
         this.observers = new ArrayList<>();
     }
     
