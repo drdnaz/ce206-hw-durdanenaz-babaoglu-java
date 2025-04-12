@@ -2,33 +2,38 @@ package com.naz.taskmanager;
 
 import com.naz.taskmanager.repository.DatabaseConnection;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Database bağlantı testi için örnek sınıf.
+ */
 public class DatabaseTest {
+
+    /**
+     * Ana metod - veritabanı bağlantısını test eder.
+     *
+     * @param args komut satırı argümanları
+     */
     public static void main(String[] args) {
         DatabaseConnection dbConnection = DatabaseConnection.getInstance(System.out);
+        Connection connection = dbConnection.getConnection();
         
-        try (Connection conn = dbConnection.getConnection();
-             Statement stmt = conn.createStatement()) {
+        if (connection != null) {
+            System.out.println("Veritabanı bağlantısı başarıyla kuruldu.");
             
-            // Önce mevcut test kullanıcısını silme
-            String deleteUser = "DELETE FROM Users WHERE username = 'testuser'";
-            stmt.execute(deleteUser);
-            
-            // Örnek bir kullanıcı ekleme
-            String insertUser = "INSERT INTO Users (username, password, email) VALUES ('testuser', 'testpass', 'test@example.com')";
-            stmt.execute(insertUser);
-            
-            // Kullanıcıları sorgulama
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Users");
-            while (rs.next()) {
-                System.out.println("Username: " + rs.getString("username"));
-                System.out.println("Email: " + rs.getString("email"));
+            try {
+                Statement stmt = connection.createStatement();
+                System.out.println("Veritabanı işlemleri yapılabilir.");
+                stmt.close();
+            } catch (SQLException e) {
+                System.err.println("SQL hatası: " + e.getMessage());
+            } finally {
+                dbConnection.closeConnection();
+                System.out.println("Veritabanı bağlantısı kapatıldı.");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else {
+            System.err.println("Veritabanı bağlantısı kurulamadı!");
         }
     }
 }

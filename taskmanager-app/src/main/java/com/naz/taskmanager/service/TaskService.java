@@ -38,8 +38,12 @@ public class TaskService {
      * @param description Task description
      * @param category Task category
      * @return The created task
+     * @throws IllegalArgumentException if category is null
      */
     public TaskmanagerItem createTask(String name, String description, Category category) {
+        if (category == null) {
+            throw new IllegalArgumentException("Category cannot be null");
+        }
         TaskmanagerItem task = new TaskmanagerItem(name, description, category);
         taskRepository.save(task);
         return task;
@@ -219,6 +223,50 @@ public class TaskService {
                 return t1.getPriority().compareTo(t2.getPriority());
             });
             return result;
+        }
+    }
+
+    /**
+     * Gets tasks by project.
+     *
+     * @param projectId the project id
+     * @param includeCompleted whether to include completed tasks
+     * @return the tasks by project
+     */
+    public List<TaskmanagerItem> getTasksByProject(String projectId, boolean includeCompleted) {
+        // Tüm görevleri getir
+        List<TaskmanagerItem> allTasks = taskRepository.getAll();
+        
+        // Proje ID'sine göre filtrele
+        List<TaskmanagerItem> projectTasks = allTasks.stream()
+            .filter(task -> task.getProject() != null && task.getProject().getId().equals(projectId))
+            .collect(Collectors.toList());
+        
+        // İstenirse tamamlanmış görevleri filtrele
+        if (includeCompleted) {
+            return projectTasks;
+        } else {
+            return projectTasks.stream()
+                .filter(task -> !task.isCompleted())
+                .collect(Collectors.toList());
+        }
+    }
+
+    /**
+     * Gets all tasks from repository.
+     *
+     * @param includeCompleted whether to include completed tasks
+     * @return all tasks
+     */
+    public List<TaskmanagerItem> getAllTasks(boolean includeCompleted) {
+        if (includeCompleted) {
+            return taskRepository.getAll();
+        } else {
+            // Tamamlanmış görevleri hariç tut, sadece boş liste döndürme
+            List<TaskmanagerItem> allTasks = taskRepository.getAll();
+            return allTasks.stream()
+                .filter(task -> !task.isCompleted())
+                .collect(Collectors.toList());
         }
     }
 }

@@ -31,6 +31,9 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
     /** @brief Task priority */
     private Priority priority = Priority.MEDIUM;
 
+    /** @brief Task's associated project */
+    private Project project;
+
     /** @brief List of reminders */
     private List<Reminder> reminders;
 
@@ -43,6 +46,16 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
     public TaskmanagerItem(String name, String description, Category category) {
         super(name, description);
         this.category = category;
+        this.reminders = new ArrayList<>();
+    }
+
+    /**
+     * @brief Default constructor for TaskmanagerItem
+     * Initializes with empty values
+     */
+    public TaskmanagerItem() {
+        super("", "");
+        this.category = null;
         this.reminders = new ArrayList<>();
     }
 
@@ -180,5 +193,18 @@ public class TaskmanagerItem extends BaseItem implements Schedulable, Categoriza
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /** @return Returns the associated project */
+    public Project getProject() {
+        return project;
+    }
+
+    /**
+     * @brief Sets the project for this task
+     * @param project Associated project
+     */
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

@@ -42,4 +42,40 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+    
+    /**
+     * Compares this category with another object for equality.
+     * Two categories are equal if they have the same name.
+     * 
+     * @param obj Object to compare with
+     * @return true if the categories are equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        
+        Category other = (Category) obj;
+        return name != null ? name.equals(other.name) : other.name == null;
+    }
+    
+    /**
+     * Returns a hash code value for the category.
+     * 
+     * @return Hash code value
+     */
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
+    
+    /**
+     * Returns a string representation of the category.
+     * 
+     * @return String representation of the category
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
 }

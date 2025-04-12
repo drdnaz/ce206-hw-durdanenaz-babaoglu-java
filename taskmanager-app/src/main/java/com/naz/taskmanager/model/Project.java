@@ -145,7 +145,7 @@ public class Project extends BaseItem {
      * 
      * @return Completion percentage (0-100)
      */
-    public int getCompletionPercentage() {
+    public double getCompletionPercentage() {
         if (tasks.isEmpty()) {
             return 0;
         }
@@ -157,7 +157,7 @@ public class Project extends BaseItem {
             }
         }
         
-        return (completedTasks * 100) / tasks.size();
+        return ((double) completedTasks * 100) / tasks.size();
     }
     
     /**
@@ -191,5 +191,14 @@ public class Project extends BaseItem {
     @Override
     public String getItemType() {
         return "Project";
+    }
+    
+    /**
+     * Sets the ID for the project
+     * 
+     * @param id New ID
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 }
