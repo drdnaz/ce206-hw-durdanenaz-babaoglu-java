@@ -34,7 +34,7 @@ public class LoginFrame extends JFrame {
         innerPanel.setOpaque(false);
                 innerPanel.setLayout(null);
         
-                // Başlık
+                // Title
                 JLabel titleLabel = new JLabel("Task Manager ");
                 titleLabel.setBounds(-68, 72, 517, 37);
                 titleLabel.setBackground(new Color(240, 240, 240));
@@ -51,7 +51,7 @@ public class LoginFrame extends JFrame {
                 sloganLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 innerPanel.add(sloganLabel);
         
-                // Login başlığı
+                // Login title
                 JLabel loginLabel = new JLabel("Login");
                 loginLabel.setBounds(233, 201, 61, 26);
                 loginLabel.setFont(new Font("Arial", Font.BOLD, 22));
@@ -59,7 +59,7 @@ public class LoginFrame extends JFrame {
                 loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 innerPanel.add(loginLabel);
 
-        // Form paneli
+        // Form panel
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBounds(92, 237, 341, 74);
         formPanel.setOpaque(false);
@@ -111,7 +111,7 @@ public class LoginFrame extends JFrame {
         lblNewLabel.setBounds(0, 59, 226, 156);
         innerPanel.add(lblNewLabel);
         
-                // Login butonu
+                // Login button
                 loginButton = new JButton("Login");
                 loginButton.setBounds(178, 321, 79, 30);
                 innerPanel.add(loginButton);
@@ -131,11 +131,8 @@ public class LoginFrame extends JFrame {
                             return;
                         }
                         if (userRepository.validateUser(username, password)) {
-                            JFrame mainFrame = new JFrame("Task Manager");
-                            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            mainFrame.setSize(900, 600);
-                            mainFrame.setLocationRelativeTo(null);
-                            mainFrame.setVisible(true);
+                            MainMenuFrame mainMenuFrame = new MainMenuFrame(username);
+                            mainMenuFrame.setVisible(true);
                             LoginFrame.this.dispose();
                         } else {
                             JOptionPane.showMessageDialog(LoginFrame.this, "Invalid username or password!", "Login Error", JOptionPane.ERROR_MESSAGE);
@@ -143,7 +140,7 @@ public class LoginFrame extends JFrame {
                     }
                 });
                 
-                        // Register butonu
+                        // Register button
                         registerButton = new JButton("Register");
                         registerButton.setBounds(269, 321, 106, 30);
                         innerPanel.add(registerButton);
@@ -170,7 +167,7 @@ public class LoginFrame extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Register başlığı
+        // Register title
         JLabel registerTitle = new JLabel("Register");
         registerTitle.setFont(new Font("Arial", Font.BOLD, 24));
         registerTitle.setForeground(Color.WHITE);
@@ -209,7 +206,7 @@ public class LoginFrame extends JFrame {
         JPasswordField regConfField = new JPasswordField(16);
         panel.add(regConfField, gbc);
 
-        // Dialogu daha büyük aç
+        // Make dialog larger
         panel.setPreferredSize(new Dimension(420, 300));
 
         int result = JOptionPane.showConfirmDialog(
