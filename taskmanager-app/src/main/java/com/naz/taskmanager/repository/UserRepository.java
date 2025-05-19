@@ -4,6 +4,7 @@ import com.naz.taskmanager.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.PrintStream;
 
 /**
  * Repository for User entities using SQLite database.
@@ -15,11 +16,15 @@ import java.util.List;
 public class UserRepository implements Repository<User> {
     /** Database connection */
     private final Connection connection;
+    private final PrintStream out;
+    private final DatabaseConnection dbConnection;
     
     /**
      * Constructor for UserRepository
      */
-    public UserRepository() {
+    public UserRepository(PrintStream out) {
+        this.out = out;
+        this.dbConnection = DatabaseConnection.getInstance(out);
         this.connection = DatabaseConnection.getInstance(System.out).getConnection();
     }
     
@@ -206,17 +211,47 @@ public class UserRepository implements Repository<User> {
      * @return true if username exists
      */
     public boolean userExists(String username) {
-        String sql = "SELECT 1 FROM Users WHERE username = ?";
-        
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, username);
-            
-            try (ResultSet rs = stmt.executeQuery()) {
+        String sql = "SELECT username FROM Users WHERE username = ?";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            try (ResultSet rs = pstmt.executeQuery()) {
                 return rs.next();
             }
         } catch (SQLException e) {
-            System.out.println("Error checking if user exists: " + e.getMessage());
-            throw new RuntimeException("Error checking if user exists", e);
+            out.println("Kullanıcı sorgulanamadı: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Kullanıcı ekle (register)
+    public boolean addUser(String username, String password) {
+        String sql = "INSERT INTO Users (username, password) VALUES (?, ?)";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            out.println("Kullanıcı eklenemedi: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Kullanıcı adı ve şifre doğru mu? (login)
+    public boolean validateUser(String username, String password) {
+        String sql = "SELECT username FROM Users WHERE username = ? AND password = ?";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            out.println("Kullanıcı doğrulanamadı: " + e.getMessage());
+            return false;
         }
     }
 }

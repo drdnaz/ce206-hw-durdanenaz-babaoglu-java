@@ -20,7 +20,7 @@ public class UserService {
      * Constructor for UserService
      */
     public UserService() {
-        this.userRepository = new UserRepository();
+        this.userRepository = new UserRepository(System.out);
     }
     
     /**

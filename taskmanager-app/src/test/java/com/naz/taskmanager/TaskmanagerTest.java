@@ -902,7 +902,7 @@ public class TaskmanagerTest {
     public void testUserRepositorySaveAndUpdateFlow() {
         try {
             // Tam yoluyla import edelim
-            com.naz.taskmanager.repository.UserRepository repository = new com.naz.taskmanager.repository.UserRepository();
+            com.naz.taskmanager.repository.UserRepository repository = new com.naz.taskmanager.repository.UserRepository(System.out);
             
             // 1. Test kullanıcısını oluştur
             String testUsername = "test_user_" + System.currentTimeMillis();
