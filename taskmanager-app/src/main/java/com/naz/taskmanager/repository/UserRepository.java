@@ -25,7 +25,7 @@ public class UserRepository implements Repository<User> {
     public UserRepository(PrintStream out) {
         this.out = out;
         this.dbConnection = DatabaseConnection.getInstance(out);
-        this.connection = DatabaseConnection.getInstance(System.out).getConnection();
+        this.connection = this.dbConnection.getConnection();
     }
     
     /**
@@ -212,8 +212,7 @@ public class UserRepository implements Repository<User> {
      */
     public boolean userExists(String username) {
         String sql = "SELECT username FROM Users WHERE username = ?";
-        try (Connection conn = dbConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, username);
             try (ResultSet rs = pstmt.executeQuery()) {
                 return rs.next();
@@ -227,8 +226,7 @@ public class UserRepository implements Repository<User> {
     // Kullanıcı ekle (register)
     public boolean addUser(String username, String password) {
         String sql = "INSERT INTO Users (username, password) VALUES (?, ?)";
-        try (Connection conn = dbConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.executeUpdate();
@@ -239,19 +237,5 @@ public class UserRepository implements Repository<User> {
         }
     }
 
-    // Kullanıcı adı ve şifre doğru mu? (login)
-    public boolean validateUser(String username, String password) {
-        String sql = "SELECT username FROM Users WHERE username = ? AND password = ?";
-        try (Connection conn = dbConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
-            }
-        } catch (SQLException e) {
-            out.println("Kullanıcı doğrulanamadı: " + e.getMessage());
-            return false;
-        }
-    }
+    // Kullanıcı adı ve şifre doğru mu? (login)    public boolean validateUser(String username, String password) {        String sql = "SELECT username FROM Users WHERE username = ? AND password = ?";        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {            pstmt.setString(1, username);            pstmt.setString(2, password);            try (ResultSet rs = pstmt.executeQuery()) {                return rs.next();            }        } catch (SQLException e) {            out.println("Kullanıcı doğrulanamadı: " + e.getMessage());            return false;        }    }
 }

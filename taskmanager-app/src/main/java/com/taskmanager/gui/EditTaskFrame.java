@@ -569,4 +569,8 @@ public class EditTaskFrame extends JFrame {
 			currentTaskId = -1;
 		}
 	}
+
+	public JTable getTaskTable() {
+		return taskTable;
+	}
 }

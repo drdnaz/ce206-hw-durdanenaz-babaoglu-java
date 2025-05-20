@@ -261,4 +261,12 @@ public class DeleteTaskFrame extends JFrame {
 			}
 		}
 	}
+	
+	/**
+	 * Getter for taskTable - Used for testing
+	 * @return The task table
+	 */
+	public JTable getTaskTable() {
+		return taskTable;
+	}
 }

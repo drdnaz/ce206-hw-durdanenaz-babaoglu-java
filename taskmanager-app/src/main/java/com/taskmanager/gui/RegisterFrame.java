@@ -214,4 +214,14 @@ public class RegisterFrame extends JFrame {
             frame.setVisible(true);
         });
     }
+
+    public JTextField getUsernameField() {
+        return usernameField;
+    }
+    public JPasswordField getPasswordField() {
+        return passwordField;
+    }
+    public JPasswordField getConfirmField() {
+        return confirmField;
+    }
 } 

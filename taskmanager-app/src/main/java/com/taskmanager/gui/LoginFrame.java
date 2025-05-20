@@ -243,4 +243,11 @@ public class LoginFrame extends JFrame {
         RegisterFrame registerFrame = new RegisterFrame();
         registerFrame.setVisible(true);
     }
+
+    public JTextField getUsernameField() {
+        return usernameField;
+    }
+    public JPasswordField getPasswordField() {
+        return passwordField;
+    }
 } 

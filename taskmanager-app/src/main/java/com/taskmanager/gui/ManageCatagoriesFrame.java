@@ -611,4 +611,8 @@ public class ManageCatagoriesFrame extends JFrame {
 			currentCategoryId = -1;
 		}
 	}
+	
+	public JTable getCategoryTable() {
+		return categoryTable;
+	}
 }

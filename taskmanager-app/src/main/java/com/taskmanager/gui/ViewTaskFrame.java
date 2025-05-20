@@ -402,4 +402,20 @@ public class ViewTaskFrame extends JFrame {
 			"Task Details",
 			JOptionPane.INFORMATION_MESSAGE);
 	}
+
+	public JTable getTaskTable() {
+		return taskTable;
+	}
+	
+	public JTextField getSearchField() {
+		return searchField;
+	}
+	
+	public JComboBox<String> getCategoryFilterComboBox() {
+		return categoryFilterComboBox;
+	}
+	
+	public JComboBox<String> getPriorityFilterComboBox() {
+		return priorityFilterComboBox;
+	}
 }
