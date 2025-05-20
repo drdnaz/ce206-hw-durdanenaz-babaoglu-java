@@ -19,7 +19,6 @@ public class MainMenuFrame extends JFrame {
     private JButton deleteTaskButton;
     private JButton editTaskButton;
     private JButton manageCategoriesButton;
-    private JButton searchButton;
     private JButton exitButton;
     
     private String username;
@@ -42,6 +41,7 @@ public class MainMenuFrame extends JFrame {
      */
     private void initComponents() {
         setTitle("Task Manager - Main Menu");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(700, 500);
         setLocationRelativeTo(null);
@@ -54,14 +54,14 @@ public class MainMenuFrame extends JFrame {
         setContentPane(mainPanel);
         
         // Title at top left
-        JLabel titleLabel = new JLabel("Task Manager");
+        JLabel titleLabel = new JLabel("Your Task Manager");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBounds(53, 30, 250, 30);
+        titleLabel.setBounds(53, 30, 287, 30);
         mainPanel.add(titleLabel);
         
         // Slogan below title
-        JLabel sloganLabel = new JLabel("\"Plan smart. Work better.\"");
+        JLabel sloganLabel = new JLabel("**Lets plan your tasks...**");
         sloganLabel.setFont(new Font("Segoe UI", Font.ITALIC, 14));
         sloganLabel.setForeground(new Color(180, 200, 255));
         sloganLabel.setBounds(53, 60, 250, 25);
@@ -79,44 +79,43 @@ public class MainMenuFrame extends JFrame {
         // Add Task
         addTaskButton = new JButton("Add Task");
         styleButton(addTaskButton);
-        addTaskButton.setBounds(75, 120, 160, 90);
+        addTaskButton.setBounds(75, 120, 134, 90);
         mainPanel.add(addTaskButton);
         
         // View Tasks
         viewTaskButton = new JButton("View Tasks");
+        viewTaskButton.setBorder(new LineBorder(Color.PINK, 4));
         styleButton(viewTaskButton);
-        viewTaskButton.setBounds(265, 120, 160, 90);
+        viewTaskButton.setBounds(265, 122, 134, 90);
         mainPanel.add(viewTaskButton);
         
         // Delete Task
         deleteTaskButton = new JButton("Delete Task");
+        deleteTaskButton.setBorder(new LineBorder(Color.PINK, 4));
         styleButton(deleteTaskButton);
-        deleteTaskButton.setBounds(455, 120, 160, 90);
+        deleteTaskButton.setBounds(455, 120, 134, 90);
         mainPanel.add(deleteTaskButton);
         
         // Second row of buttons
         // Edit Task
         editTaskButton = new JButton("Edit Task");
+        editTaskButton.setBorder(new LineBorder(Color.PINK, 4));
         styleButton(editTaskButton);
-        editTaskButton.setBounds(75, 235, 160, 90);
+        editTaskButton.setBounds(75, 235, 134, 90);
         mainPanel.add(editTaskButton);
         
         // Manage Categories
         manageCategoriesButton = new JButton("Manage Categories");
+        manageCategoriesButton.setBorder(new LineBorder(Color.PINK, 4));
         styleButton(manageCategoriesButton);
-        manageCategoriesButton.setBounds(265, 235, 160, 90);
+        manageCategoriesButton.setBounds(265, 235, 134, 90);
         mainPanel.add(manageCategoriesButton);
-        
-        // Search
-        searchButton = new JButton("Search");
-        styleButton(searchButton);
-        searchButton.setBounds(455, 235, 160, 90);
-        mainPanel.add(searchButton);
         
         // Exit button at bottom center
         exitButton = new JButton("Exit");
+        exitButton.setBorder(new LineBorder(Color.PINK, 4));
         styleButton(exitButton);
-        exitButton.setBounds(265, 350, 160, 70);
+        exitButton.setBounds(455, 235, 134, 90);
         mainPanel.add(exitButton);
         
         // Add button actions
@@ -131,7 +130,7 @@ public class MainMenuFrame extends JFrame {
         button.setBackground(Color.WHITE);
         button.setForeground(new Color(80, 80, 80));
         button.setFocusPainted(false);
-        button.setBorder(new LineBorder(BUTTON_BORDER_COLOR, 3, true));
+        button.setBorder(new LineBorder(Color.PINK, 3, true));
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
     
@@ -143,9 +142,8 @@ public class MainMenuFrame extends JFrame {
         addTaskButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainMenuFrame.this, 
-                    "Add task functionality not implemented yet.", 
-                    "Information", JOptionPane.INFORMATION_MESSAGE);
+                AddTaskFrame addTaskFrame = new AddTaskFrame(MainMenuFrame.this);
+                addTaskFrame.setVisible(true);
             }
         });
         
@@ -153,9 +151,8 @@ public class MainMenuFrame extends JFrame {
         viewTaskButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainMenuFrame.this, 
-                    "View tasks functionality not implemented yet.", 
-                    "Information", JOptionPane.INFORMATION_MESSAGE);
+                ViewTaskFrame viewTaskFrame = new ViewTaskFrame(MainMenuFrame.this);
+                viewTaskFrame.setVisible(true);
             }
         });
         
@@ -163,9 +160,8 @@ public class MainMenuFrame extends JFrame {
         deleteTaskButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainMenuFrame.this, 
-                    "Delete task functionality not implemented yet.", 
-                    "Information", JOptionPane.INFORMATION_MESSAGE);
+                DeleteTaskFrame deleteTaskFrame = new DeleteTaskFrame(MainMenuFrame.this);
+                deleteTaskFrame.setVisible(true);
             }
         });
         
@@ -173,9 +169,8 @@ public class MainMenuFrame extends JFrame {
         editTaskButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainMenuFrame.this, 
-                    "Edit task functionality not implemented yet.", 
-                    "Information", JOptionPane.INFORMATION_MESSAGE);
+                EditTaskFrame editTaskFrame = new EditTaskFrame(MainMenuFrame.this);
+                editTaskFrame.setVisible(true);
             }
         });
         
@@ -183,19 +178,8 @@ public class MainMenuFrame extends JFrame {
         manageCategoriesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainMenuFrame.this, 
-                    "Category management functionality not implemented yet.", 
-                    "Information", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        
-        // Search button
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainMenuFrame.this, 
-                    "Search functionality not implemented yet.", 
-                    "Information", JOptionPane.INFORMATION_MESSAGE);
+                ManageCatagoriesFrame manageCategoriesFrame = new ManageCatagoriesFrame(MainMenuFrame.this);
+                manageCategoriesFrame.setVisible(true);
             }
         });
         

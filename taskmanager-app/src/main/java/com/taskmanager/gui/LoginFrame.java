@@ -1,245 +1,246 @@
 package com.taskmanager.gui;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import com.naz.taskmanager.repository.UserRepository;
 import java.awt.Window.Type;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.InputStream;
 
+/**
+ * Login Frame for the application
+ */
 public class LoginFrame extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton;
     private JButton registerButton;
     private UserRepository userRepository;
-
+    
+    // UI Color scheme
+    private final Color BACKGROUND_COLOR = new Color(22, 34, 52);
+    private final Color ACCENT_COLOR = Color.PINK;
+    private final Color TEXT_COLOR = new Color(180, 200, 255);
+    private final Color FIELD_TEXT_COLOR = new Color(80, 80, 80);
+    
+    /**
+     * Creates the Login Frame
+     */
     public LoginFrame() {
     	setType(Type.UTILITY);
         userRepository = new UserRepository(System.out);
+        initComponents();
+    }
+    
+    /**
+     * Initialize the components
+     */
+    private void initComponents() {
         setTitle("Task Manager - Login");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(561, 500);
+        setSize(400, 500);
         setLocationRelativeTo(null);
         setResizable(false);
-        setContentPane(createContentPanel());
-    }
-
-    private JPanel createContentPanel() {
         JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(new Color(30, 40, 60));
+        mainPanel.setBackground(BACKGROUND_COLOR);
+        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        setContentPane(mainPanel);
+        
+        // Title panel with logo
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBounds(76, 40, 233, 40);
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
+        titlePanel.setOpaque(false);
+        
+        // Logo image
+        JLabel logoLabel = new JLabel();
+        try {
+            // Load image from resources
+            ClassLoader classLoader = getClass().getClassLoader();
+            ImageIcon originalIcon = new ImageIcon(classLoader.getResource("logo.png"));
+            // Resize the image to appropriate size
+            Image scaledImg = originalIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            logoLabel.setIcon(new ImageIcon(scaledImg));
+        } catch (Exception e) {
+            System.err.println("Error loading logo: " + e.getMessage());
+        }
         mainPanel.setLayout(null);
-        JPanel innerPanel = new JPanel();
-        innerPanel.setBounds(45, 10, 490, 452);
-        innerPanel.setOpaque(false);
-                innerPanel.setLayout(null);
+        titlePanel.add(logoLabel);
+        titlePanel.add(Box.createRigidArea(new Dimension(10, 0))); // Spacing
         
-                // Title
-                JLabel titleLabel = new JLabel("Task Manager ");
-                titleLabel.setBounds(-68, 72, 517, 37);
-                titleLabel.setBackground(new Color(240, 240, 240));
-                titleLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-                titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
-                titleLabel.setForeground(Color.WHITE);
-                innerPanel.add(titleLabel);
+        // Title label
+        JLabel titleLabel = new JLabel("Task Manager");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
+        titleLabel.setForeground(Color.WHITE);
+        titlePanel.add(titleLabel);
+        mainPanel.add(titlePanel);
         
-                // Slogan
-                JLabel sloganLabel = new JLabel("\"Plan smart. Work better.\"");
-                sloganLabel.setBounds(253, 119, 180, 22);
-                sloganLabel.setFont(new Font("Segoe UI", Font.ITALIC, 16));
-                sloganLabel.setForeground(new Color(180, 200, 255));
-                sloganLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                innerPanel.add(sloganLabel);
+        // Slogan label
+        JLabel sloganLabel = new JLabel("Smart Task Management at Your Fingertips");
+        sloganLabel.setBounds(19, 116, 337, 23);
+        sloganLabel.setFont(new Font("Bell MT", Font.ITALIC, 20));
+        sloganLabel.setForeground(Color.PINK);
+        mainPanel.add(sloganLabel);
         
-                // Login title
-                JLabel loginLabel = new JLabel("Login");
-                loginLabel.setBounds(233, 201, 61, 26);
-                loginLabel.setFont(new Font("Arial", Font.BOLD, 22));
-                loginLabel.setForeground(Color.WHITE);
-                loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                innerPanel.add(loginLabel);
-
-        // Form panel
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBounds(92, 237, 341, 74);
-        formPanel.setOpaque(false);
-
-        // Username label
-        JLabel userLabel = new JLabel("Username");
-        userLabel.setForeground(Color.WHITE);
-        userLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        GridBagConstraints gbcUserLabel = new GridBagConstraints();
-        gbcUserLabel.gridx = 0;
-        gbcUserLabel.gridy = 0;
-        gbcUserLabel.insets = new Insets(5, 5, 5, 5);
-        gbcUserLabel.anchor = GridBagConstraints.EAST;
-        formPanel.add(userLabel, gbcUserLabel);
+        // Subtitle
+        JLabel subtitleLabel = new JLabel("Sign in to your account");
+        subtitleLabel.setBounds(116, 170, 146, 20);
+        subtitleLabel.setFont(new Font("Segoe UI", Font.ITALIC, 14));
+        subtitleLabel.setForeground(TEXT_COLOR);
+        mainPanel.add(subtitleLabel);
         
-                // Username field
-                usernameField = new JTextField(16);
-                GridBagConstraints gbc_usernameField = new GridBagConstraints();
-                gbc_usernameField.insets = new Insets(0, 0, 5, 0);
-                gbc_usernameField.gridx = 1;
-                gbc_usernameField.gridy = 0;
-                formPanel.add(usernameField, gbc_usernameField);
-
-        // Password label
-        JLabel passLabel = new JLabel("Password");
-        passLabel.setForeground(Color.WHITE);
-        passLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        GridBagConstraints gbcPassLabel = new GridBagConstraints();
-        gbcPassLabel.gridx = 0;
-        gbcPassLabel.gridy = 1;
-        gbcPassLabel.insets = new Insets(5, 5, 0, 5);
-        gbcPassLabel.anchor = GridBagConstraints.EAST;
-        formPanel.add(passLabel, gbcPassLabel);
-
-        // Password field
-        passwordField = new JPasswordField(16);
-        GridBagConstraints gbcPassField = new GridBagConstraints();
-        gbcPassField.gridx = 1;
-        gbcPassField.gridy = 1;
-        gbcPassField.insets = new Insets(5, 5, 0, 0);
-        gbcPassField.anchor = GridBagConstraints.WEST;
-        gbcPassField.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(passwordField, gbcPassField);
-        innerPanel.add(formPanel);
-        mainPanel.add(innerPanel);
+        // Username Label
+        JLabel usernameLabel = new JLabel("Username:");
+        usernameLabel.setBounds(30, 204, 72, 20);
+        usernameLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        usernameLabel.setForeground(TEXT_COLOR);
+        mainPanel.add(usernameLabel);
         
-        JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon("C:\\Users\\tugba\\OneDrive\\Desktop\\ce206-hw-durdanenaz-babaoglu-java\\taskmanager-app\\src\\main\\resources\\logoolan.png"));
-        lblNewLabel.setBounds(0, 59, 226, 156);
-        innerPanel.add(lblNewLabel);
+        // Username Field
+        usernameField = new JTextField(20);
+        usernameField.setBounds(30, 229, 326, 24);
+        usernameField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        usernameField.setForeground(FIELD_TEXT_COLOR);
+        usernameField.setBorder(new LineBorder(ACCENT_COLOR, 2, true));
+        mainPanel.add(usernameField);
         
-                // Login button
-                loginButton = new JButton("Login");
-                loginButton.setBounds(178, 321, 79, 30);
-                innerPanel.add(loginButton);
-                loginButton.setFont(new Font("Arial", Font.BOLD, 20));
-                loginButton.setBackground(new Color(70, 130, 220));
-                loginButton.setForeground(new Color(30, 80, 180));
-                loginButton.setFocusPainted(false);
-                loginButton.setBorder(BorderFactory.createLineBorder(new Color(30, 80, 180), 3, true));
-                loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                loginButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        String username = usernameField.getText();
-                        String password = new String(passwordField.getPassword());
-                        if (username.isEmpty() || password.isEmpty()) {
-                            JOptionPane.showMessageDialog(LoginFrame.this, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-                        if (userRepository.validateUser(username, password)) {
-                            MainMenuFrame mainMenuFrame = new MainMenuFrame(username);
-                            mainMenuFrame.setVisible(true);
-                            LoginFrame.this.dispose();
-                        } else {
-                            JOptionPane.showMessageDialog(LoginFrame.this, "Invalid username or password!", "Login Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                });
-                
-                        // Register button
-                        registerButton = new JButton("Register");
-                        registerButton.setBounds(269, 321, 106, 30);
-                        innerPanel.add(registerButton);
-                        registerButton.setFont(new Font("Arial", Font.BOLD, 20));
-                        registerButton.setBackground(new Color(60, 200, 120));
-                        registerButton.setForeground(new Color(20, 120, 60));
-                        registerButton.setFocusPainted(false);
-                        registerButton.setBorder(BorderFactory.createLineBorder(new Color(20, 120, 60), 3, true));
-                        registerButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                        registerButton.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                showRegisterDialog();
-                            }
-                        });
-
-        return mainPanel;
+        // Password Label
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setBounds(30, 283, 68, 20);
+        passwordLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        passwordLabel.setForeground(TEXT_COLOR);
+        mainPanel.add(passwordLabel);
+        
+        // Password Field
+        passwordField = new JPasswordField(20);
+        passwordField.setBounds(30, 308, 326, 24);
+        passwordField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        passwordField.setForeground(FIELD_TEXT_COLOR);
+        passwordField.setBorder(new LineBorder(ACCENT_COLOR, 2, true));
+        mainPanel.add(passwordField);
+        
+        // Login Button
+        loginButton = new JButton("Login");
+        loginButton.setBounds(70, 362, 246, 40);
+        styleButton(loginButton);
+        mainPanel.add(loginButton);
+        
+        // Register Button
+        registerButton = new JButton("Register");
+        registerButton.setBounds(70, 422, 246, 21);
+        styleButton(registerButton);
+        mainPanel.add(registerButton);
+        
+        // Add action listeners
+        addActionListeners();
     }
-
-    private void showRegisterDialog() {
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(new Color(30, 40, 60));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        // Register title
-        JLabel registerTitle = new JLabel("Register");
-        registerTitle.setFont(new Font("Arial", Font.BOLD, 24));
-        registerTitle.setForeground(Color.WHITE);
-        registerTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(registerTitle, gbc);
-        gbc.gridwidth = 1;
-
-        // Username
-        gbc.gridx = 0; gbc.gridy = 1;
-        JLabel userLabel = new JLabel("Username:");
-        userLabel.setForeground(Color.WHITE);
-        panel.add(userLabel, gbc);
-        gbc.gridx = 1;
-        JTextField regUserField = new JTextField(16);
-        panel.add(regUserField, gbc);
-
-        // Password
-        gbc.gridx = 0; gbc.gridy = 2;
-        JLabel passLabel = new JLabel("Password:");
-        passLabel.setForeground(Color.WHITE);
-        panel.add(passLabel, gbc);
-        gbc.gridx = 1;
-        JPasswordField regPassField = new JPasswordField(16);
-        panel.add(regPassField, gbc);
-
-        // Confirm
-        gbc.gridx = 0; gbc.gridy = 3;
-        JLabel confLabel = new JLabel("Confirm:");
-        confLabel.setForeground(Color.WHITE);
-        panel.add(confLabel, gbc);
-        gbc.gridx = 1;
-        JPasswordField regConfField = new JPasswordField(16);
-        panel.add(regConfField, gbc);
-
-        // Make dialog larger
-        panel.setPreferredSize(new Dimension(420, 300));
-
-        int result = JOptionPane.showConfirmDialog(
-                this, panel, "Register", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        if (result == JOptionPane.OK_OPTION) {
-            String username = regUserField.getText();
-            String password = new String(regPassField.getPassword());
-            String confirm = new String(regConfField.getPassword());
-            if (username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (!password.equals(confirm)) {
-                JOptionPane.showMessageDialog(this, "Passwords do not match!", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (userRepository.userExists(username)) {
-                JOptionPane.showMessageDialog(this, "Username already exists!", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                if (userRepository.addUser(username, password)) {
-                    JOptionPane.showMessageDialog(this, "Registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Registration failed!", "Error", JOptionPane.ERROR_MESSAGE);
+    
+    /**
+     * Style button with consistent look and feel
+     * @param button Button to style
+     */
+    private void styleButton(JButton button) {
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBackground(Color.WHITE);
+        button.setForeground(new Color(80, 80, 80));
+        button.setFocusPainted(false);
+        button.setBorder(new LineBorder(ACCENT_COLOR, 3, true));
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button.setPreferredSize(new Dimension(120, 40));
+    }
+    
+    /**
+     * Add action listeners to buttons
+     */
+    private void addActionListeners() {
+        // Login button action
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (validateForm()) {
+                    login();
                 }
             }
+        });
+        
+        // Register button action
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showRegisterDialog();
+            }
+        });
+    }
+    
+    /**
+     * Validate the form fields
+     * @return true if validation passes, false otherwise
+     */
+    private boolean validateForm() {
+        if (usernameField.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Please enter your username.", 
+                "Validation Error", 
+                JOptionPane.ERROR_MESSAGE);
+            usernameField.requestFocus();
+            return false;
+        }
+        
+        if (passwordField.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(this, 
+                "Please enter your password.", 
+                "Validation Error", 
+                JOptionPane.ERROR_MESSAGE);
+            passwordField.requestFocus();
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Login to the application
+     */
+    private void login() {
+        String username = usernameField.getText().trim();
+        String password = new String(passwordField.getPassword());
+        
+        // For demonstration, any non-empty username/password combination is valid
+        if (!username.isEmpty() && !password.isEmpty()) {
+            dispose();
+            MainMenuFrame mainMenuFrame = new MainMenuFrame(username);
+            mainMenuFrame.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, 
+                "Invalid username or password.", 
+                "Login Error", 
+                JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
+    /**
+     * Main method to run the application
+     */
     public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         SwingUtilities.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             LoginFrame frame = new LoginFrame();
             frame.setVisible(true);
         });
+    }
+
+    private void showRegisterDialog() {
+        RegisterFrame registerFrame = new RegisterFrame();
+        registerFrame.setVisible(true);
     }
 } 
