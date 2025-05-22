@@ -68,17 +68,14 @@ public class TaskmanagerAppTest {
     
     @Test
     public void testMainMethod() {
-        // Ana metodu test etmek için gerekli girdileri hazırlama
         String input = "3\n"; // 3 = Çıkış
         ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
         System.setIn(testIn);
         
         try {
-            // main metodunu çağır, herhangi bir exception almamalıyız
-            TaskmanagerApp.main(new String[]{});
+            TaskmanagerApp.main(new String[]{"--console"}); // Console modu için parametre eklendi
             assertTrue(true);
         } catch (Exception e) {
-            // Exception alınsa bile test başarılı olmalı
             System.err.println("Test sırasında hata alındı: " + e.getMessage());
             assertTrue(true);
         }
@@ -6136,8 +6133,8 @@ public void testMenuLoopingBehavior() {
             // Çıkış komutu için giriş simulasyonu
             System.setIn(new ByteArrayInputStream("3\n".getBytes()));
             
-            // Ana metodu çağır
-            TaskmanagerApp.main(new String[]{});
+            // Ana metodu çağır - console modu için parametre eklendi
+            TaskmanagerApp.main(new String[]{"--console"});
             
             // Başarılı olduğunu varsay
             assertTrue(true);
