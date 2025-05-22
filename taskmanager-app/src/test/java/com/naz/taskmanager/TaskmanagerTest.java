@@ -2435,9 +2435,9 @@ public class TaskmanagerTest {
         // Çıktıyı kontrol et
         String output = outContent.toString();
         assertTrue(output.contains("DEADLINE SETTINGS MENU"));
-        assertTrue(output.contains("1. Set Task Deadline"));
-        assertTrue(output.contains("2. View Tasks with Deadlines"));
-        assertTrue(output.contains("3. View Tasks with Deadlines in Range"));
+        assertTrue(output.contains("1. Assign Deadline"));
+        assertTrue(output.contains("2. View Deadlines"));
+        assertTrue(output.contains("3. View Deadlines In Range"));
         assertTrue(output.contains("4. Exit"));
     }
     
@@ -2449,9 +2449,9 @@ public class TaskmanagerTest {
         // Çıktıyı kontrol et
         String output = outContent.toString();
         assertTrue(output.contains("REMINDER SYSTEM MENU"));
-        assertTrue(output.contains("1. Set Reminders for Tasks"));
-        assertTrue(output.contains("2. View All Reminders"));
-        assertTrue(output.contains("3. Configure Notification Settings"));
+        assertTrue(output.contains("1. Set Reminders"));
+        assertTrue(output.contains("2. View Reminders"));
+        assertTrue(output.contains("3. Notification Settings"));
         assertTrue(output.contains("4. Exit"));
     }
 }
