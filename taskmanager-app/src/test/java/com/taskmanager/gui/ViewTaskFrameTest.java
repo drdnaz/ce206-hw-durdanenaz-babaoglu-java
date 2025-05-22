@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import com.taskmanager.model.Task;
 import java.util.Date;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ViewTaskFrameTest {
     private ViewTaskFrame viewTaskFrame;
@@ -69,5 +71,43 @@ public class ViewTaskFrameTest {
     public void testFrameDisposal() {
         viewTaskFrame.dispose();
         assertFalse("Frame should not be visible after disposal", viewTaskFrame.isVisible());
+    }
+
+    @Test
+    public void testRefreshButtonAction() {
+        JButton refreshButton = (JButton) getPrivateField(viewTaskFrame, "refreshButton");
+        assertNotNull(refreshButton);
+        for (ActionListener al : refreshButton.getActionListeners()) {
+            al.actionPerformed(new java.awt.event.ActionEvent(refreshButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+    }
+
+    @Test
+    public void testCloseButtonAction() {
+        JButton closeButton = (JButton) getPrivateField(viewTaskFrame, "closeButton");
+        assertNotNull(closeButton);
+        for (ActionListener al : closeButton.getActionListeners()) {
+            al.actionPerformed(new java.awt.event.ActionEvent(closeButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+    }
+
+    @Test
+    public void testDetailsButtonAction() {
+        JButton detailsButton = (JButton) getPrivateField(viewTaskFrame, "detailsButton");
+        assertNotNull(detailsButton);
+        for (ActionListener al : detailsButton.getActionListeners()) {
+            al.actionPerformed(new java.awt.event.ActionEvent(detailsButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+    }
+
+    // Yardımcı: private alanlara erişim
+    private Object getPrivateField(Object obj, String fieldName) {
+        try {
+            java.lang.reflect.Field field = obj.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field.get(obj);
+        } catch (Exception e) {
+            return null;
+        }
     }
 } 

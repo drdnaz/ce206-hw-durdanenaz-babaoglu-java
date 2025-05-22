@@ -5,6 +5,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AddTaskFrameTest {
     private AddTaskFrame addTaskFrame;
@@ -63,5 +65,76 @@ public void setUp() {
     public void testFrameDisposal() {
         addTaskFrame.dispose();
         assertFalse("Frame should not be visible after disposal", addTaskFrame.isVisible());
+    }
+
+    @Test
+    public void testValidateForm_emptyFields() {
+        addTaskFrame.getTaskTitleField().setText("");
+        addTaskFrame.getTaskDescriptionArea().setText("");
+        // Tarih ve comboboxlar zaten default değer alıyor
+        // validateForm private olduğu için reflection ile çağırıyoruz
+        try {
+            java.lang.reflect.Method method = AddTaskFrame.class.getDeclaredMethod("validateForm");
+            method.setAccessible(true);
+            boolean result = (boolean) method.invoke(addTaskFrame);
+            assertFalse("Boş alanlarla form doğrulaması başarısız olmalı", result);
+        } catch (Exception e) {
+            fail("validateForm çağrısı başarısız: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testValidateForm_validFields() {
+        addTaskFrame.getTaskTitleField().setText("Başlık");
+        addTaskFrame.getTaskDescriptionArea().setText("Açıklama");
+        try {
+            java.lang.reflect.Method method = AddTaskFrame.class.getDeclaredMethod("validateForm");
+            method.setAccessible(true);
+            boolean result = (boolean) method.invoke(addTaskFrame);
+            assertTrue("Dolu alanlarla form doğrulaması başarılı olmalı", result);
+        } catch (Exception e) {
+            fail("validateForm çağrısı başarısız: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testSaveTask_withValidForm() {
+        addTaskFrame.getTaskTitleField().setText("Başlık");
+        addTaskFrame.getTaskDescriptionArea().setText("Açıklama");
+        try {
+            java.lang.reflect.Method method = AddTaskFrame.class.getDeclaredMethod("saveTask");
+            method.setAccessible(true);
+            method.invoke(addTaskFrame);
+            // Burada bir Task kaydedildi mi kontrolü yapılabilir, ancak doğrudan veri tabanı/mock yoksa sadece hata olmamasını test edebiliriz
+        } catch (Exception e) {
+            fail("saveTask çağrısı başarısız: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testButtonActions() {
+        JButton saveButton = (JButton) getPrivateField(addTaskFrame, "saveButton");
+        JButton cancelButton = (JButton) getPrivateField(addTaskFrame, "cancelButton");
+        assertNotNull(saveButton);
+        assertNotNull(cancelButton);
+        // Save butonuna tıklama simülasyonu
+        for (ActionListener al : saveButton.getActionListeners()) {
+            al.actionPerformed(new java.awt.event.ActionEvent(saveButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+        // Cancel butonuna tıklama simülasyonu
+        for (ActionListener al : cancelButton.getActionListeners()) {
+            al.actionPerformed(new java.awt.event.ActionEvent(cancelButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+    }
+
+    // Yardımcı: private alanlara erişim
+    private Object getPrivateField(Object obj, String fieldName) {
+        try {
+            java.lang.reflect.Field field = obj.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field.get(obj);
+        } catch (Exception e) {
+            return null;
+        }
     }
 } 

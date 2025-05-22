@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import com.taskmanager.model.Task;
 import java.util.Date;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class EditTaskFrameTest {
     private EditTaskFrame editTaskFrame;
@@ -55,5 +57,53 @@ public class EditTaskFrameTest {
     public void testFrameDisposal() {
         editTaskFrame.dispose();
         assertFalse("Frame should not be visible after disposal", editTaskFrame.isVisible());
+    }
+
+    @Test
+    public void testEditButtonAction() {
+        JButton editButton = (JButton) getPrivateField(editTaskFrame, "editButton");
+        assertNotNull(editButton);
+        for (ActionListener al : editButton.getActionListeners()) {
+            al.actionPerformed(new java.awt.event.ActionEvent(editButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+    }
+
+    @Test
+    public void testRefreshButtonAction() {
+        JButton refreshButton = (JButton) getPrivateField(editTaskFrame, "refreshButton");
+        assertNotNull(refreshButton);
+        for (ActionListener al : refreshButton.getActionListeners()) {
+            al.actionPerformed(new java.awt.event.ActionEvent(refreshButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+    }
+
+    @Test
+    public void testCloseButtonAction() {
+        JButton closeButton = (JButton) getPrivateField(editTaskFrame, "closeButton");
+        assertNotNull(closeButton);
+        for (ActionListener al : closeButton.getActionListeners()) {
+            al.actionPerformed(new java.awt.event.ActionEvent(closeButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+    }
+
+    @Test
+    public void testEditFormFields() {
+        assertNotNull(getPrivateField(editTaskFrame, "taskTitleField"));
+        assertNotNull(getPrivateField(editTaskFrame, "taskDescriptionArea"));
+        assertNotNull(getPrivateField(editTaskFrame, "dateSpinner"));
+        assertNotNull(getPrivateField(editTaskFrame, "categoryComboBox"));
+        assertNotNull(getPrivateField(editTaskFrame, "priorityComboBox"));
+        assertNotNull(getPrivateField(editTaskFrame, "statusComboBox"));
+    }
+
+    // Yardımcı: private alanlara erişim
+    private Object getPrivateField(Object obj, String fieldName) {
+        try {
+            java.lang.reflect.Field field = obj.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field.get(obj);
+        } catch (Exception e) {
+            return null;
+        }
     }
 } 
