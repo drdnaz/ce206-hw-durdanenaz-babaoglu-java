@@ -2,6 +2,9 @@ package com.naz.taskmanager;
 
 import java.util.Scanner;
 import com.naz.taskmanager.repository.DatabaseConnection;
+import com.taskmanager.gui.LoginFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  * Main application class.
@@ -18,34 +21,49 @@ public class TaskmanagerApp {
      * @param args Command line arguments
      */
     public static void main(String[] args) {
-        // Create scanner for user input
-        Scanner scanner = new Scanner(System.in);
-
-        // Create instance of the application
-        Taskmanager taskmanagerApp = new Taskmanager(scanner, System.out);
-
-        // Print initialization message
-        System.out.println("Initializing database...");
-
         // Initialize database
+        System.out.println("Initializing database...");
         DatabaseConnection.getInstance(System.out).initializeDatabase();
 
-        // Get Taskmanager singleton instance
-        Taskmanager taskManager = Taskmanager.getInstance(scanner, System.out);
+        // Check command line arguments
+        if (args.length > 0) {
+            if (args[0].equals("--console")) {
+                startConsoleApp();
+            } else if (args[0].equals("--gui")) {
+                startGuiApp();
+            } else {
+                System.out.println("Invalid argument. Usage: --console or --gui");
+                System.exit(1);
+            }
+        } else {
+            System.out.println("Please select a mode: --console or --gui");
+            System.exit(1);
+        }
+    }
 
-        // Start the application
-        System.out.println("Starting TaskManager application...");
-
-        // Run the main menu
-        taskManager.mainMenu();
-
-        // Close the scanner
+    /**
+     * Start console application
+     */
+    private static void startConsoleApp() {
+        Scanner scanner = new Scanner(System.in);
+        Taskmanager taskmanagerApp = new Taskmanager(scanner, System.out);
+        taskmanagerApp.mainMenu();
         scanner.close();
-
-        // Close database connection
         DatabaseConnection.getInstance(System.out).closeConnection();
+    }
 
-        // Print exit message
-        System.out.println("TaskManager application closed. Goodbye!");
+    /**
+     * Start GUI application
+     */
+    private static void startGuiApp() {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                LoginFrame frame = new LoginFrame();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
