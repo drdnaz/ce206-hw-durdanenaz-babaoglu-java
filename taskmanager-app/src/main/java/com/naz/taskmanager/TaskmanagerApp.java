@@ -9,42 +9,52 @@ import javax.swing.UIManager;
 /**
  * Main application class.
  * Contains the application entry point and initializes the application components.
- * 
+ *
  * @author TaskManager Team
- * @version 1.0
+ * @version 1.1
  */
 public class TaskmanagerApp {
 
     /**
      * Application entry point
-     * 
+     *
      * @param args Command line arguments
      */
     public static void main(String[] args) {
-        // Initialize database
         System.out.println("Initializing database...");
         DatabaseConnection.getInstance(System.out).initializeDatabase();
 
-        // Check command line arguments
-        if (args.length > 0) {
-            if (args[0].equals("--console")) {
-                startConsoleApp();
-            } else if (args[0].equals("--gui")) {
-                startGuiApp();
-            } else {
-                System.out.println("Invalid argument. Usage: --console or --gui");
-                System.exit(1);
-            }
+        String mode = parseArguments(args);
+        if ("console".equals(mode)) {
+            startConsoleApp();
+        } else if ("gui".equals(mode)) {
+            startGuiApp();
         } else {
-            System.out.println("Please select a mode: --console or --gui");
-            System.exit(1);
+            System.out.println("Invalid or missing argument. Usage: --console or --gui");
         }
+    }
+
+    /**
+     * Parses the command-line arguments.
+     *
+     * @param args Command-line arguments
+     * @return "console", "gui", or "invalid"
+     */
+    public static String parseArguments(String[] args) {
+        if (args.length > 0) {
+            if ("--console".equals(args[0])) {
+                return "console";
+            } else if ("--gui".equals(args[0])) {
+                return "gui";
+            }
+        }
+        return "invalid";
     }
 
     /**
      * Start console application
      */
-    private static void startConsoleApp() {
+    public static void startConsoleApp() {
         Scanner scanner = new Scanner(System.in);
         Taskmanager taskmanagerApp = new Taskmanager(scanner, System.out);
         taskmanagerApp.mainMenu();
@@ -55,7 +65,7 @@ public class TaskmanagerApp {
     /**
      * Start GUI application
      */
-    private static void startGuiApp() {
+    public static void startGuiApp() {
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

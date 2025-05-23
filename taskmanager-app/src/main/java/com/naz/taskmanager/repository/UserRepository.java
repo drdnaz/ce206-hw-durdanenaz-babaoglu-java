@@ -237,5 +237,18 @@ public class UserRepository implements Repository<User> {
         }
     }
 
-    // Kullanıcı adı ve şifre doğru mu? (login)    public boolean validateUser(String username, String password) {        String sql = "SELECT username FROM Users WHERE username = ? AND password = ?";        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {            pstmt.setString(1, username);            pstmt.setString(2, password);            try (ResultSet rs = pstmt.executeQuery()) {                return rs.next();            }        } catch (SQLException e) {            out.println("Kullanıcı doğrulanamadı: " + e.getMessage());            return false;        }    }
+    // Kullanıcı adı ve şifre doğru mu? (login)    
+    public boolean validateUser(String username, String password) {        
+        String sql = "SELECT username FROM Users WHERE username = ? AND password = ?";        
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {            
+            pstmt.setString(1, username);            
+            pstmt.setString(2, password);            
+            try (ResultSet rs = pstmt.executeQuery()) {                
+                return rs.next();            
+            }        
+        } catch (SQLException e) {            
+            out.println("Kullanıcı doğrulanamadı: " + e.getMessage());            
+            return false;        
+        }    
+    }
 }
