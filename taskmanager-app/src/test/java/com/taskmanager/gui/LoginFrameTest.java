@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 import javax.swing.*;
 import java.awt.*;
 import com.naz.taskmanager.repository.UserRepository;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoginFrameTest {
     private LoginFrame loginFrame;
@@ -73,6 +75,178 @@ public class LoginFrameTest {
     public void testFrameDisposal() {
         loginFrame.dispose();
         assertFalse("Frame should not be visible after disposal", loginFrame.isVisible());
+    }
+
+    @Test
+    public void testValidateForm() {
+        // Test empty username
+        loginFrame.getUsernameField().setText("");
+        loginFrame.getPasswordField().setText("password123");
+        
+        // Get the validateForm method using reflection
+        try {
+            java.lang.reflect.Method validateFormMethod = LoginFrame.class.getDeclaredMethod("validateForm");
+            validateFormMethod.setAccessible(true);
+            
+            boolean result = (boolean) validateFormMethod.invoke(loginFrame);
+            assertFalse("Form should not validate with empty username", result);
+            
+            // Verify error dialog was shown
+            boolean dialogShown = false;
+            for (Window window : Window.getWindows()) {
+                if (window instanceof JDialog) {
+                    dialogShown = true;
+                    window.dispose();
+                    break;
+                }
+            }
+            assertTrue("Error dialog should be shown for empty username", dialogShown);
+            
+            // Test empty password
+            loginFrame.getUsernameField().setText("testuser");
+            loginFrame.getPasswordField().setText("");
+            
+            result = (boolean) validateFormMethod.invoke(loginFrame);
+            assertFalse("Form should not validate with empty password", result);
+            
+            // Verify error dialog was shown
+            dialogShown = false;
+            for (Window window : Window.getWindows()) {
+                if (window instanceof JDialog) {
+                    dialogShown = true;
+                    window.dispose();
+                    break;
+                }
+            }
+            assertTrue("Error dialog should be shown for empty password", dialogShown);
+            
+            // Test valid input
+            loginFrame.getUsernameField().setText("testuser");
+            loginFrame.getPasswordField().setText("password123");
+            
+            result = (boolean) validateFormMethod.invoke(loginFrame);
+            assertTrue("Form should validate with valid input", result);
+            
+        } catch (Exception e) {
+            fail("Test failed with exception: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testLogin() {
+        // Test successful login
+        loginFrame.getUsernameField().setText("testuser");
+        loginFrame.getPasswordField().setText("password123");
+        
+        try {
+            // Get the login method using reflection
+            java.lang.reflect.Method loginMethod = LoginFrame.class.getDeclaredMethod("login");
+            loginMethod.setAccessible(true);
+            
+            // Perform login
+            loginMethod.invoke(loginFrame);
+            
+            // Verify login frame is disposed
+            assertFalse("Login frame should be disposed after successful login", loginFrame.isVisible());
+            
+            // Verify main menu frame is shown
+            boolean mainMenuShown = false;
+            for (Window window : Window.getWindows()) {
+                if (window instanceof MainMenuFrame) {
+                    mainMenuShown = true;
+                    window.dispose();
+                    break;
+                }
+            }
+            assertTrue("Main menu frame should be shown after successful login", mainMenuShown);
+            
+        } catch (Exception e) {
+            fail("Test failed with exception: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testShowRegisterDialog() {
+        try {
+            // Get the showRegisterDialog method using reflection
+            java.lang.reflect.Method showRegisterDialogMethod = LoginFrame.class.getDeclaredMethod("showRegisterDialog");
+            showRegisterDialogMethod.setAccessible(true);
+            
+            // Show register dialog
+            showRegisterDialogMethod.invoke(loginFrame);
+            
+            // Verify register dialog is shown
+            boolean registerDialogShown = false;
+            for (Window window : Window.getWindows()) {
+                if (window instanceof RegisterFrame) {
+                    registerDialogShown = true;
+                    window.dispose();
+                    break;
+                }
+            }
+            assertTrue("Register dialog should be shown", registerDialogShown);
+            
+        } catch (Exception e) {
+            fail("Test failed with exception: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testLoginButtonAction() {
+        // Get the login button
+        JButton loginButton = null;
+        try {
+            java.lang.reflect.Field loginButtonField = LoginFrame.class.getDeclaredField("loginButton");
+            loginButtonField.setAccessible(true);
+            loginButton = (JButton) loginButtonField.get(loginFrame);
+        } catch (Exception e) {
+            fail("Failed to get login button: " + e.getMessage());
+        }
+        
+        assertNotNull("Login button should exist", loginButton);
+        
+        // Test login button action with valid input
+        loginFrame.getUsernameField().setText("testuser");
+        loginFrame.getPasswordField().setText("password123");
+        
+        // Trigger the action listener
+        for (ActionListener al : loginButton.getActionListeners()) {
+            al.actionPerformed(new ActionEvent(loginButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+        
+        // Verify login frame is disposed
+        assertFalse("Login frame should be disposed after successful login", loginFrame.isVisible());
+    }
+
+    @Test
+    public void testRegisterButtonAction() {
+        // Get the register button
+        JButton registerButton = null;
+        try {
+            java.lang.reflect.Field registerButtonField = LoginFrame.class.getDeclaredField("registerButton");
+            registerButtonField.setAccessible(true);
+            registerButton = (JButton) registerButtonField.get(loginFrame);
+        } catch (Exception e) {
+            fail("Failed to get register button: " + e.getMessage());
+        }
+        
+        assertNotNull("Register button should exist", registerButton);
+        
+        // Trigger the action listener
+        for (ActionListener al : registerButton.getActionListeners()) {
+            al.actionPerformed(new ActionEvent(registerButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+        
+        // Verify register dialog is shown
+        boolean registerDialogShown = false;
+        for (Window window : Window.getWindows()) {
+            if (window instanceof RegisterFrame) {
+                registerDialogShown = true;
+                window.dispose();
+                break;
+            }
+        }
+        assertTrue("Register dialog should be shown", registerDialogShown);
     }
 
     // Yardımcı metod: Tüm açık JOptionPane dialoglarını kapat
