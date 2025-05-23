@@ -1,6 +1,7 @@
 package com.taskmanager.gui;
 
 import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import javax.swing.*;
@@ -20,6 +21,12 @@ public class DeleteTaskFrameTest {
         
         mainMenuFrame = new MainMenuFrame("testUser");
         deleteTaskFrame = new DeleteTaskFrame(mainMenuFrame);
+    }
+
+    @After
+    public void tearDown() {
+        if (deleteTaskFrame != null) deleteTaskFrame.dispose();
+        closeAllDialogs();
     }
 
     @Test
@@ -63,11 +70,21 @@ public class DeleteTaskFrameTest {
                 fail("deleteSelectedTask çağrısı başarısız: " + e.getMessage());
             }
         }
+        closeAllDialogs();
     }
 
     @Test
     public void testFrameDisposal() {
         deleteTaskFrame.dispose();
         assertFalse("Frame should not be visible after disposal", deleteTaskFrame.isVisible());
+    }
+
+    // Yardımcı metod: Tüm açık JOptionPane dialoglarını kapat
+    private void closeAllDialogs() {
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                window.dispose();
+            }
+        }
     }
 }

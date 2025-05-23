@@ -1,6 +1,7 @@
 package com.taskmanager.gui;
 
 import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import javax.swing.*;
@@ -28,6 +29,12 @@ public class EditTaskFrameTest {
         editTaskFrame.setVisible(true);
     }
 
+    @After
+    public void tearDown() {
+        if (editTaskFrame != null) editTaskFrame.dispose();
+        closeAllDialogs();
+    }
+
     @Test
     public void testFrameInitialization() {
         assertNotNull("EditTaskFrame should not be null", editTaskFrame);
@@ -37,11 +44,8 @@ public class EditTaskFrameTest {
 
     @Test
     public void testComponentsInitialization() {
-        // Test if all required components are initialized
         Component[] components = editTaskFrame.getContentPane().getComponents();
         assertTrue("Frame should have components", components.length > 0);
-        
-        // Test if the frame has the correct size
         assertEquals("Frame width should be 800", 800, editTaskFrame.getWidth());
         assertEquals("Frame height should be 600", 600, editTaskFrame.getHeight());
     }
@@ -66,6 +70,7 @@ public class EditTaskFrameTest {
         for (ActionListener al : editButton.getActionListeners()) {
             al.actionPerformed(new java.awt.event.ActionEvent(editButton, ActionEvent.ACTION_PERFORMED, ""));
         }
+        closeAllDialogs();
     }
 
     @Test
@@ -75,6 +80,7 @@ public class EditTaskFrameTest {
         for (ActionListener al : refreshButton.getActionListeners()) {
             al.actionPerformed(new java.awt.event.ActionEvent(refreshButton, ActionEvent.ACTION_PERFORMED, ""));
         }
+        closeAllDialogs();
     }
 
     @Test
@@ -84,6 +90,7 @@ public class EditTaskFrameTest {
         for (ActionListener al : closeButton.getActionListeners()) {
             al.actionPerformed(new java.awt.event.ActionEvent(closeButton, ActionEvent.ACTION_PERFORMED, ""));
         }
+        closeAllDialogs();
     }
 
     @Test
@@ -104,6 +111,15 @@ public class EditTaskFrameTest {
             return field.get(obj);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    // Yardımcı metod: Tüm açık JOptionPane dialoglarını kapat
+    private void closeAllDialogs() {
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                window.dispose();
+            }
         }
     }
 } 

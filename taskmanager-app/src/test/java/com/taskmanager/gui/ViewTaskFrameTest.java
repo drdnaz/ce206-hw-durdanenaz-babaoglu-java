@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 public class ViewTaskFrameTest {
     private ViewTaskFrame viewTaskFrame;
     private MainMenuFrame mainMenuFrame;
+    private static boolean warningShown = false;
 
     @Before
     public void setUp() {
@@ -108,6 +109,14 @@ public class ViewTaskFrameTest {
             return field.get(obj);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public static void closeAllDialogs() {
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                window.dispose();
+            }
         }
     }
 } 

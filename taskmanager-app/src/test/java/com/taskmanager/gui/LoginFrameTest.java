@@ -1,6 +1,7 @@
 package com.taskmanager.gui;
 
 import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import javax.swing.*;
@@ -22,7 +23,13 @@ public class LoginFrameTest {
 
         userRepository = new UserRepository(System.out);
         loginFrame = new LoginFrame();
-         loginFrame.setVisible(true); // Frame'i görünür yap
+        loginFrame.setVisible(true); // Frame'i görünür yap
+    }
+
+    @After
+    public void tearDown() {
+        if (loginFrame != null) loginFrame.dispose();
+        closeAllDialogs();
     }
 
     @Test
@@ -66,5 +73,14 @@ public class LoginFrameTest {
     public void testFrameDisposal() {
         loginFrame.dispose();
         assertFalse("Frame should not be visible after disposal", loginFrame.isVisible());
+    }
+
+    // Yardımcı metod: Tüm açık JOptionPane dialoglarını kapat
+    private void closeAllDialogs() {
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                window.dispose();
+            }
+        }
     }
 } 

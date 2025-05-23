@@ -1,11 +1,14 @@
 package com.taskmanager.gui;
 
 import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import javax.swing.*;
 import java.awt.*;
 import com.taskmanager.model.Category;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ManageCategoriesFrameTest {
     private ManageCatagoriesFrame manageCategoriesFrame;
@@ -25,6 +28,12 @@ public class ManageCategoriesFrameTest {
         manageCategoriesFrame.setVisible(true);
     }
 
+    @After
+    public void tearDown() {
+        if (manageCategoriesFrame != null) manageCategoriesFrame.dispose();
+        closeAllDialogs();
+    }
+
     @Test
     public void testFrameInitialization() {
         assertNotNull("ManageCategoriesFrame should not be null", manageCategoriesFrame);
@@ -34,11 +43,8 @@ public class ManageCategoriesFrameTest {
 
     @Test
     public void testComponentsInitialization() {
-        // Test if all required components are initialized
         Component[] components = manageCategoriesFrame.getContentPane().getComponents();
         assertTrue("Frame should have components", components.length > 0);
-        
-        // Test if the frame has the correct size
         assertEquals("Frame width should be 800", 800, manageCategoriesFrame.getWidth());
         assertEquals("Frame height should be 500", 500, manageCategoriesFrame.getHeight());
     }
@@ -51,8 +57,69 @@ public class ManageCategoriesFrameTest {
     }
 
     @Test
-    public void testFrameDisposal() {
-        manageCategoriesFrame.dispose();
-        assertFalse("Frame should not be visible after disposal", manageCategoriesFrame.isVisible());
+    public void testAddButtonAction() {
+        JButton addButton = (JButton) getPrivateField(manageCategoriesFrame, "addButton");
+        assertNotNull(addButton);
+        for (ActionListener al : addButton.getActionListeners()) {
+            al.actionPerformed(new ActionEvent(addButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+        closeAllDialogs();
+    }
+
+    @Test
+    public void testEditButtonAction() {
+        JButton editButton = (JButton) getPrivateField(manageCategoriesFrame, "editButton");
+        assertNotNull(editButton);
+        for (ActionListener al : editButton.getActionListeners()) {
+            al.actionPerformed(new ActionEvent(editButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+        closeAllDialogs();
+    }
+
+    @Test
+    public void testDeleteButtonAction() {
+        JButton deleteButton = (JButton) getPrivateField(manageCategoriesFrame, "deleteButton");
+        assertNotNull(deleteButton);
+        for (ActionListener al : deleteButton.getActionListeners()) {
+            al.actionPerformed(new ActionEvent(deleteButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+        closeAllDialogs();
+    }
+
+    @Test
+    public void testCloseButtonAction() {
+        JButton closeButton = (JButton) getPrivateField(manageCategoriesFrame, "closeButton");
+        assertNotNull(closeButton);
+        for (ActionListener al : closeButton.getActionListeners()) {
+            al.actionPerformed(new ActionEvent(closeButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+        closeAllDialogs();
+    }
+
+    @Test
+    public void testFormFields() {
+        assertNotNull(getPrivateField(manageCategoriesFrame, "nameField"));
+        assertNotNull(getPrivateField(manageCategoriesFrame, "descriptionArea"));
+        assertNotNull(getPrivateField(manageCategoriesFrame, "colorField"));
+    }
+
+    // Yardımcı: private alanlara erişim
+    private Object getPrivateField(Object obj, String fieldName) {
+        try {
+            java.lang.reflect.Field field = obj.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field.get(obj);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // Yardımcı metod: Tüm açık JOptionPane dialoglarını kapat
+    private void closeAllDialogs() {
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                window.dispose();
+            }
+        }
     }
 } 
