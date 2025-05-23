@@ -222,6 +222,14 @@ public class ViewTaskFrame extends JFrame {
 	 * @param searchButton The search button
 	 */
 	private void addFilterActionListeners(JButton searchButton) {
+		// Search field action
+		searchField.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				filterTasks();
+			}
+		});
+		
 		// Search button action
 		searchButton.addActionListener(new ActionListener() {
 			@Override
@@ -311,11 +319,9 @@ public class ViewTaskFrame extends JFrame {
 		String categoryFilter = (String) categoryFilterComboBox.getSelectedItem();
 		String priorityFilter = (String) priorityFilterComboBox.getSelectedItem();
 		
+		// Create a new sorter for the table
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
 		taskTable.setRowSorter(sorter);
-		
-		// Reset any existing filters
-		sorter.setRowFilter(null);
 		
 		// Create a filter
 		RowFilter<DefaultTableModel, Integer> filter = new RowFilter<DefaultTableModel, Integer>() {
@@ -324,39 +330,37 @@ public class ViewTaskFrame extends JFrame {
 				DefaultTableModel model = entry.getModel();
 				int row = entry.getIdentifier();
 				
-				boolean matchesSearch = true;
-				boolean matchesCategory = true;
-				boolean matchesPriority = true;
+				// Get values from the row
+				String title = model.getValueAt(row, 1).toString().toLowerCase();
+				String description = model.getValueAt(row, 2).toString().toLowerCase();
+				String category = model.getValueAt(row, 4).toString();
+				String priority = model.getValueAt(row, 5).toString();
 				
-				// Apply search text filter
-				if (!searchText.isEmpty()) {
-					matchesSearch = false;
-					// Check if title or description contains search text
-					String title = model.getValueAt(row, 1).toString().toLowerCase();
-					String description = model.getValueAt(row, 2).toString().toLowerCase();
-					
-					if (title.contains(searchText) || description.contains(searchText)) {
-						matchesSearch = true;
-					}
-				}
+				// Check search text
+				boolean matchesSearch = searchText.isEmpty() || 
+					title.contains(searchText) || 
+					description.contains(searchText);
 				
-				// Apply category filter
-				if (!categoryFilter.equals("All")) {
-					String category = model.getValueAt(row, 4).toString();
-					matchesCategory = category.equals(categoryFilter);
-				}
+				// Check category
+				boolean matchesCategory = categoryFilter.equals("All") || 
+					category.equals(categoryFilter);
 				
-				// Apply priority filter
-				if (!priorityFilter.equals("All")) {
-					String priority = model.getValueAt(row, 5).toString();
-					matchesPriority = priority.equals(priorityFilter);
-				}
+				// Check priority
+				boolean matchesPriority = priorityFilter.equals("All") || 
+					priority.equals(priorityFilter);
 				
+				// Row must match all active filters
 				return matchesSearch && matchesCategory && matchesPriority;
 			}
 		};
 		
+		// Apply the filter
 		sorter.setRowFilter(filter);
+		
+		// Force the table to update its view
+		taskTable.invalidate();
+		taskTable.revalidate();
+		taskTable.repaint();
 	}
 	
 	/**

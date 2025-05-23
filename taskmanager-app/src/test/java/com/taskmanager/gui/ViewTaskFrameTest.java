@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import com.taskmanager.model.Task;
 import java.util.Date;
@@ -17,16 +18,14 @@ public class ViewTaskFrameTest {
 
     @Before
     public void setUp() {
-        // Örnek kategori oluştur
-        com.naz.taskmanager.model.Category category = new com.naz.taskmanager.model.Category("Test Category");
-        // Test kullanıcısı ile TaskService oluştur
-        com.naz.taskmanager.service.TaskService taskService = new com.naz.taskmanager.service.TaskService("testUser");
-        // En az bir görev ekle
-        taskService.createTask("Test Task", "Test Description", category);
-
+        // Create a clean state for testing
         mainMenuFrame = new MainMenuFrame("testUser");
         viewTaskFrame = new ViewTaskFrame(mainMenuFrame);
-         viewTaskFrame.setVisible(true); // Frame'i görünür yap
+        viewTaskFrame.setVisible(true);
+        
+        // Clear any existing data
+        DefaultTableModel model = (DefaultTableModel) viewTaskFrame.getTaskTable().getModel();
+        model.setRowCount(0);
     }
 
     @Test
@@ -99,6 +98,97 @@ public class ViewTaskFrameTest {
         for (ActionListener al : detailsButton.getActionListeners()) {
             al.actionPerformed(new java.awt.event.ActionEvent(detailsButton, ActionEvent.ACTION_PERFORMED, ""));
         }
+    }
+
+    @Test
+    public void testFilterTasks() {
+        // Get the table and filter components
+        JTable taskTable = viewTaskFrame.getTaskTable();
+        JTextField searchField = viewTaskFrame.getSearchField();
+        JComboBox<String> categoryFilter = viewTaskFrame.getCategoryFilterComboBox();
+        JComboBox<String> priorityFilter = viewTaskFrame.getPriorityFilterComboBox();
+        
+        // Clear existing data and add test data
+        DefaultTableModel model = (DefaultTableModel) taskTable.getModel();
+        model.setRowCount(0); // Clear all rows
+        model.addRow(new Object[]{1, "Test Task 1", "Description 1", "01/01/2024", "Work", "High", "Pending"});
+        model.addRow(new Object[]{2, "Test Task 2", "Description 2", "02/01/2024", "Personal", "Low", "Completed"});
+        
+        try {
+            // Get the filterTasks method using reflection
+            java.lang.reflect.Method filterTasksMethod = ViewTaskFrame.class.getDeclaredMethod("filterTasks");
+            filterTasksMethod.setAccessible(true);
+            
+            // Test search filter
+            searchField.setText("Test Task 1");
+            filterTasksMethod.invoke(viewTaskFrame);
+            Thread.sleep(100); // Give time for the table to update
+            assertEquals("Should filter to 1 row", 1, taskTable.getRowSorter().getViewRowCount());
+            
+            // Test category filter
+            searchField.setText("");
+            categoryFilter.setSelectedItem("Work");
+            filterTasksMethod.invoke(viewTaskFrame);
+            Thread.sleep(100); // Give time for the table to update
+            assertEquals("Should filter to 1 row", 1, taskTable.getRowSorter().getViewRowCount());
+            
+            // Test priority filter
+            categoryFilter.setSelectedItem("All");
+            priorityFilter.setSelectedItem("High");
+            filterTasksMethod.invoke(viewTaskFrame);
+            Thread.sleep(100); // Give time for the table to update
+            assertEquals("Should filter to 1 row", 1, taskTable.getRowSorter().getViewRowCount());
+        } catch (Exception e) {
+            fail("Test failed with exception: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testShowTaskDetails() {
+        // Get the table and add test data
+        JTable taskTable = viewTaskFrame.getTaskTable();
+        DefaultTableModel model = (DefaultTableModel) taskTable.getModel();
+        model.addRow(new Object[]{1, "Test Task", "Test Description", "01/01/2024", "Work", "High", "Pending"});
+        
+        // Select the first row
+        taskTable.setRowSelectionInterval(0, 0);
+        
+        // Get the details button and trigger its action
+        JButton detailsButton = (JButton) getPrivateField(viewTaskFrame, "detailsButton");
+        assertNotNull("Details button should exist", detailsButton);
+        
+        // Trigger the action listener
+        for (ActionListener al : detailsButton.getActionListeners()) {
+            al.actionPerformed(new ActionEvent(detailsButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+        
+        // Verify that a dialog was shown (we can't directly test the dialog content)
+        boolean dialogShown = false;
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                dialogShown = true;
+                window.dispose();
+                break;
+            }
+        }
+        assertTrue("Task details dialog should be shown", dialogShown);
+        
+        // Test with no selection
+        taskTable.clearSelection();
+        for (ActionListener al : detailsButton.getActionListeners()) {
+            al.actionPerformed(new ActionEvent(detailsButton, ActionEvent.ACTION_PERFORMED, ""));
+        }
+        
+        // Verify that a warning dialog was shown
+        boolean warningShown = false;
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                warningShown = true;
+                window.dispose();
+                break;
+            }
+        }
+        assertTrue("Warning dialog should be shown when no task is selected", warningShown);
     }
 
     // Yardımcı: private alanlara erişim
